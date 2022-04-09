@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "noImplicitAny": true,
+      "module": "es6",
+      "target": "es5",
+      "jsx": "react",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": true,
+      "baseUrl": "./",
+      "paths": {
+        "Root/*": ["src/*"],
+        "Components/*": ["src/components/*"],
+        "Redux/*": ["src/redux/*"],
+        "Interfaces/*": ["src/interfaces/*"],
+        "Utils/*": ["src/utils/*"],
+      }
+    }
+  }
