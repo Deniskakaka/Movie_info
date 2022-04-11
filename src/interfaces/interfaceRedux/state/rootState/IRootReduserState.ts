@@ -5,7 +5,8 @@ interface IRootReduserState  {
     listMovieItem: IMovieMenu[],
     listTVItem: ITVMenu[],
     activeMenu: string,
-    activeListStartPage: string
+    activeListStartPage: string,
+    activeListStartTrailer: string,
 };
 
 export default IRootReduserState;

@@ -5,6 +5,9 @@ const initialState: IMovieReduserState = {
     now_play: [],
     upcoming: [],
     top_rated: [],
+    trailerMovie: [],
+    backgroundTrailer: '',
+    trailerKey: '',
     error: false,
 };
 
@@ -32,6 +35,24 @@ const movieReduser = (state = initialState, action: any) => {
             return {
                 ...state,
                 top_rated: state.top_rated.concat(action.payload),
+            }
+        }
+        case 'REQUEST_TRAILER_MOVIE': {
+            return {
+                ...state,
+                trailerMovie: state.trailerMovie.concat(action.payload)
+            }
+        }
+        case 'BACKGROUND_TRAILER': {
+            return {
+                ...state,
+                backgroundTrailer: state.backgroundTrailer = action.payload
+            }
+        }
+        case 'SWITCH_KEY_TRAILER': {
+            return {
+                ...state,
+                trailerKey: state.trailerKey = action.payload
             }
         }
         case 'ACTIVE_ERROR': {
