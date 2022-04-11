@@ -1,12 +1,16 @@
-export interface IMovie {
-    backdrop_path: string,
+import { ITrailerMovie } from "./interfaceMovie";
+
+export interface ITV {
+    poster_path: string,
     id: number,
+    backdrop_path: string,
+    vote_average: number,
+    overview: string,
+    first_air_date: string,
+    origin_country: string[],
     original_language: string,
     original_title: string,
-    overview: string,
-    poster_path: string,
-    release_date: string,
-    vote_average: number,
+    trailer: ITrailerMovie[] | []
 
     getBackdrop_path(): string,
     getPoster_path(): string,
@@ -14,11 +18,11 @@ export interface IMovie {
     getVote_average(): number,
 };
 
-export interface ITrailerMovie {
+export interface ITrailerTV {
     name: string,
     key: string,
     published_at: string,
     id: string,
     nameMovie: string,
     poster: string
-};
+}

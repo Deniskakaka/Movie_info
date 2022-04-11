@@ -1,4 +1,4 @@
-import { IMovie } from "Interfaces/interfaceClassMovie/interfaceMovie";
+import { IMovie, ITrailerMovie } from "Interfaces/interfaceClassMovie/interfaceMovie";
 
 
 export class Movie implements IMovie {
@@ -37,4 +37,5 @@ export class Movie implements IMovie {
     getRelease_date = () => this.release_date.split('-').reverse().join('/');
     
     getVote_average = () => this.vote_average;
+
 }

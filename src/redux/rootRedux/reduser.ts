@@ -19,7 +19,8 @@ const initialState: IRootReduserState = {
         { key: 'top rated', name: 'Top Rated', image: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-top-rated-customer-feedback-flaticons-lineal-color-flat-icons.png' },
     ],
     activeMenu: '',
-    activeListStartPage: 'theater'
+    activeListStartPage: 'theater',
+    activeListStartTrailer: 'theater'
 }
 
 const rootReduser = (state = initialState, action: IActionSwitchMenu) => {
@@ -34,6 +35,12 @@ const rootReduser = (state = initialState, action: IActionSwitchMenu) => {
             return {
                 ...state,
                 activeListStartPage: action.payload
+            }
+        }
+        case 'SWITCH_LIST_TRAILER': {
+            return {
+                ...state,
+                activeListStartTrailer: action.payload
             }
         }
         default:
