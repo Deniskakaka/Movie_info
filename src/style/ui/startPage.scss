@@ -1,3 +1,7 @@
+.start_page {
+    padding-bottom: 50px;
+}
+
 .what_popular {
     display: flex;
     flex-direction: column;
@@ -145,6 +149,7 @@
 }
 
 .trailer_preview {
+    position: relative !important;
     margin: 0 10px;
 }
 
@@ -154,4 +159,10 @@
     min-width: 90px;
     min-height: 50px;
     border: none;
+}
+
+.icon_play {
+    position: absolute !important;
+    top: 50%;
+    transform: translate(80%, -50%);
 }

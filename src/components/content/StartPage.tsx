@@ -51,7 +51,7 @@ const Movie = () => {
     };
     
     return (
-        <section>
+        <section className="start_page">
             <div className="what_popular">
                 <div className="what_popular__switcher">
                     <h3 className="what_popular__title">What's Popular</h3>

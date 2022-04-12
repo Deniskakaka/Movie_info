@@ -41,3 +41,9 @@ export function createTrailerTV(
         })
     });
 };
+
+export function returnNameTrailer (array: ITrailerMovie[] | ITrailerTV[], key: string) {
+    if (array.length > 0 && key !== '') {
+        return array.filter((el: ITrailerMovie | ITrailerTV) => el.key === key)[0].nameMovie;
+    }
+}
