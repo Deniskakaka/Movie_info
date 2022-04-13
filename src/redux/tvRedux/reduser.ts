@@ -7,6 +7,7 @@ const initialState: ITVStateReduser = {
     top_rated: [],
     trailerTV: [],
     trailerKey: '',
+    detailsTV: {}
 };
 
 const tvReduser = (state = initialState, action: any) => {
@@ -45,6 +46,12 @@ const tvReduser = (state = initialState, action: any) => {
             return {
                 ...state,
                 trailerKey: state.trailerKey = action.payload
+            }
+        }
+        case 'REQUEST_DETAILS_TV': {
+            return {
+                ...state,
+                detailsTV: state.detailsTV = action.payload
             }
         }
         default:

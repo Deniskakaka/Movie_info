@@ -1,7 +1,6 @@
 import React from "react";
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
 import { IMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 
 type Props = {
@@ -9,6 +8,7 @@ type Props = {
 }
 
 const Preview = (props: Props) => {
+
     return (<div className="preview">
         {
             props.listMovies.map(el => {

@@ -1,4 +1,4 @@
-import { IMovie, ITrailerMovie } from "Interfaces/interfaceClassMovie/interfaceMovie";
+import { IMovie } from "Interfaces/interfaceClassMovie/interfaceMovie";
 
 
 export class Movie implements IMovie {

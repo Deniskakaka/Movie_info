@@ -1,4 +1,4 @@
-import { IMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
+import { IDetailMovie, IMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 
 export interface IMovieReduserState {
     popular: IMovie[],
@@ -6,7 +6,7 @@ export interface IMovieReduserState {
     upcoming: IMovie[],
     top_rated: IMovie[],
     trailerMovie: ITrailerMovie[],
+    detailsMovie: IDetailMovie | {},
     backgroundTrailer: string,
     trailerKey: string,
-    error: boolean,
 };

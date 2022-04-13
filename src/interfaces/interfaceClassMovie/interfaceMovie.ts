@@ -1,3 +1,5 @@
+import { IProductionCompany } from "Interfaces/interfaceGlobalObject/rootReduserObjects";
+
 export interface IMovie {
     backdrop_path: string,
     id: number,
@@ -22,3 +24,17 @@ export interface ITrailerMovie {
     nameMovie: string,
     poster: string
 };
+
+export interface IDetailMovie {
+    backdrop_path: string,
+    budget: number,
+    id: number,
+    overview: string,
+    production_companies: IProductionCompany[],
+    release_date: string,
+    runtime:  number,
+    spoken_languages: { name: string }[],
+    title: string,
+    vote_average: number,
+    homepage: string
+}

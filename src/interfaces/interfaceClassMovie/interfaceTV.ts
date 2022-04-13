@@ -1,3 +1,4 @@
+import { ICreatedBy, IlastEpisodTV, INetworks, IProductionCompanyTV, ISeason } from "Interfaces/interfaceGlobalObject/rootReduserObjects";
 import { ITrailerMovie } from "./interfaceMovie";
 
 export interface ITV {
@@ -25,4 +26,25 @@ export interface ITrailerTV {
     id: string,
     nameMovie: string,
     poster: string
+}
+
+export interface IDetailTV {
+    backdrop_path: string,
+    created_by: ICreatedBy[],
+    first_air_date: string,
+    homepage: string,
+    episode_run_time: number[],
+    languages: string[],
+    last_episode_to_air: IlastEpisodTV,
+    name: string,
+    networks: INetworks[],
+    number_of_episodes: number,
+    number_of_seasons: number,
+    origin_country: string,
+    original_name: string,
+    overview: string,
+    poster_path: string,
+    production_companies: IProductionCompanyTV[],
+    seasons: ISeason[],
+    vote_average: number
 }
