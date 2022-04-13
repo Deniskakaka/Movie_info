@@ -1,4 +1,4 @@
-import { ICreatedBy, IlastEpisodTV, INetworks, IProductionCompanyTV, ISeason } from "Interfaces/interfaceGlobalObject/rootReduserObjects";
+import { ICreatedBy, IlastEpisodTV, INetworks, IProductionCompanyTV, ISeason } from "Interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 import { ITrailerMovie } from "./interfaceMovie";
 
 export interface ITV {
