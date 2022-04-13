@@ -5,11 +5,12 @@ import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { ITV, ITrailerTV, IDetailTV } from 'Root/interfaces/interfaceClassMovie/interfaceTV';
 import { ICreatedBy, INetworks, IProductionCompanyTV, ISeason } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
 import { requestDetailsTV } from 'Root/utils/requestFunction';
+import { TVEnum, tvActionName } from "Root/utils/other";
 
 //action details TV
 export const actionDetailsTV = (detils: IDetailTV) => {
     return {
-        type: 'REQUEST_DETAILS_TV',
+        type: tvActionName.requestDetailsTV,
         payload: detils
     }
 }
@@ -17,7 +18,7 @@ export const actionDetailsTV = (detils: IDetailTV) => {
 export const actionRequestDetailsTV = (id: number): (dispatch: Dispatch<Action>) => void => {
     return (dispatch: Dispatch<Action>) => {
         requestDetailsTV(id).then(res => {
-          const result =  new DetailsTV(
+            const result = new DetailsTV(
                 res.data.backdrop_path,
                 res.data.created_by.map((el: ICreatedBy) => new CreatedBy(
                     el.id,
@@ -70,14 +71,14 @@ export const actionRequestDetailsTV = (id: number): (dispatch: Dispatch<Action>)
 //action trailer TV
 export const actionTrailerTV = (trailer: ITrailerTV) => {
     return {
-        type: 'REQUEST_TRAILER_TV',
+        type: tvActionName.requestTrailer,
         payload: trailer
     }
 };
 
 export const actionSwitchKeyTrailerTV = (key: string) => {
     return {
-        type: 'SWITCH_KEY_TRAILER_TV',
+        type: tvActionName.setKeyTrailer,
         payload: key
     }
 };
@@ -93,7 +94,7 @@ const actionTVList = (listTV: ITV, type: string) => {
 export const actionRequestTV = (
     count: number,
     requestFunc: (count: number) => Promise<any>,
-    name: string) => {
+    name: TVEnum) => {
     return (dispatch: Dispatch<Action>, getState: () => IglobalReduser): void => {
         const requestPopularList = getState().tvReduser.popular.length !== count * 20;
         const requestAiringTodayList = getState().tvReduser.airing_today.length !== count * 20;
@@ -110,10 +111,14 @@ export const actionRequestTV = (
                 el.origin_country,
                 el.original_language,
                 el.name));
-            if (name === 'popular' && requestPopularList) return dispatch(actionTVList(result, 'REQUEST_LIST_POPULAR_TV'));
-            if (name === 'airing_today' && requestAiringTodayList) return dispatch(actionTVList(result, 'REQUEST_LIST_AIRING_TODAY_TV'));
-            if (name === 'on_the_air' && requestOnTheAirList) return dispatch(actionTVList(result, 'REQUEST_LIST_ON_THE_AIR_TV'));
-            if (name === 'top_rated' && requestTopRatedList) return dispatch(actionTVList(result, 'REQUEST_LIST_TOP_RATED_TV'));
+            if (name === TVEnum.popular && requestPopularList)
+                return dispatch(actionTVList(result, tvActionName.requestPopular));
+            if (name === TVEnum.airing_today && requestAiringTodayList)
+                return dispatch(actionTVList(result, tvActionName.requestAiringTodayTV));
+            if (name === TVEnum.on_the_air && requestOnTheAirList)
+                return dispatch(actionTVList(result, tvActionName.requestListOnTheAir));
+            if (name === TVEnum.top_rated && requestTopRatedList)
+                return dispatch(actionTVList(result, tvActionName.requestTopRated));
         })
     }
 };

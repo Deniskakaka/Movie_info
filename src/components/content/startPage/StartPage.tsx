@@ -14,6 +14,7 @@ import { switchListStartPage, switchListTrailer } from "Redux/rootRedux/action";
 import { IglobalReduser } from "Interfaces/globalInterfaces";
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { createTrailerMovie, createTrailerTV } from "Root/utils/componentsFunctions";
+import { TVEnum, MovieEnum } from "Root/utils/other";
 
 import { popularMovieRequest, popularTVRequest, requestTrailerMovie, requestTrailerTV } from "Utils/requestFunction";
 import { ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
@@ -29,8 +30,8 @@ const Movie = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(actionRequestMovie(1, popularMovieRequest, 'popular'));
-        dispatch(actionRequestTV(1, popularTVRequest, 'popular'));
+        dispatch(actionRequestMovie(1, popularMovieRequest, MovieEnum.popular));
+        dispatch(actionRequestTV(1, popularTVRequest, TVEnum.popular));
     }, []);
 
     useEffect(() => {

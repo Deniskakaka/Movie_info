@@ -5,26 +5,27 @@ import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { IDetailMovie, IMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
 import { IProductionCompany } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
 import { requestDetailsMovie } from 'Root/utils/requestFunction';
+import { MovieEnum, movieActionName } from "Root/utils/other";
 
 
 //trailers actions
 export const actionTrailer = (trailer: ITrailerMovie) => {
     return {
-        type: 'REQUEST_TRAILER_MOVIE',
+        type: movieActionName.requestTrailer,
         payload: trailer
     }
 };
 
 export const actionBackgroundTrailer = (image: string) => {
     return {
-        type: 'BACKGROUND_TRAILER',
+        type: movieActionName.setBackgroundTrailer,
         payload: image
     }
 };
 
 export const actionSwitchKeyTrailer = (key: string) => {
     return {
-        type: 'SWITCH_KEY_TRAILER',
+        type: movieActionName.setKeyTrailer,
         payload: key
     }
 };
@@ -32,7 +33,7 @@ export const actionSwitchKeyTrailer = (key: string) => {
 //action details movie
 export const actionDetailsMovie = (details: IDetailMovie) => {
     return {
-        type: 'DETAILS_MOVIE',
+        type: movieActionName.requestDetailsMovie,
         payload: details
     }
 };
@@ -45,7 +46,8 @@ export const actionRequestDetailsMovie = (id: number): (dispatch: Dispatch<Actio
                 res.data.budget,
                 res.data.id,
                 res.data.overview,
-                res.data.production_companies.map((el: IProductionCompany) => new ProductionCompanyMovie(el.id, el.name, el.logo_path)),
+                res.data.production_companies.map((el: IProductionCompany) =>
+                    new ProductionCompanyMovie(el.id, el.name, el.logo_path)),
                 res.data.release_date,
                 res.data.runtime,
                 res.data.spoken_languages,
@@ -69,7 +71,7 @@ const actionMovieList = (listMovie: IMovie, type: string) => {
 export const actionRequestMovie = (
     count: number,
     requestFunc: (count: number) => Promise<any>,
-    name: string) => {
+    name: MovieEnum) => {
     return (dispatch: Dispatch<Action>, getState: () => IglobalReduser): void => {
         const requestPopularList = getState().movieReduser.popular.length !== count * 20;
         const requestNowPlayList = getState().movieReduser.now_play.length !== count * 20;
@@ -87,10 +89,14 @@ export const actionRequestMovie = (
                 el.release_date,
                 el.vote_average,
             ));
-            if (name === 'popular' && requestPopularList) return dispatch(actionMovieList(result, 'REQUEST_LIST_POPULAR_MOVIE'));
-            if (name === 'now_play' && requestNowPlayList) return dispatch(actionMovieList(result, 'REQUEST_LIST_NOW_PLAY_MOVIE'));
-            if (name === 'upcoming' && requestUpcomingList) return dispatch(actionMovieList(result, 'REQUEST_LIST_UPCOMING_MOVIE'));
-            if (name === 'top_rated' && requestTopRatedList) return dispatch(actionMovieList(result, 'REQUEST_LIST_TOP_RATED_MOVIE'));
+            if (name === MovieEnum.popular && requestPopularList)
+                return dispatch(actionMovieList(result, movieActionName.requestPopular));
+            if (name === MovieEnum.now_play && requestNowPlayList)
+                return dispatch(actionMovieList(result, movieActionName.requestPlayNow));
+            if (name === MovieEnum.upcoming && requestUpcomingList)
+                return dispatch(actionMovieList(result, movieActionName.requestUpcoming));
+            if (name === MovieEnum.top_rated && requestTopRatedList)
+                return dispatch(actionMovieList(result, movieActionName.requestTopRated));
         });
     }
 };

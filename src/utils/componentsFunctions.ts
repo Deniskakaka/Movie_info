@@ -58,4 +58,4 @@ export function actionRequestDetails(
         const id = +localStorage.getItem('id');
         dispatch(action(id));
     }
-}
+};

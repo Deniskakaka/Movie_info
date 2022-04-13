@@ -1,7 +1,7 @@
 import React from "react";
 import SmoothList from 'react-smooth-list';
 import { Link } from "react-router-dom";
-import { IMovieMenu, ITVMenu } from "Root/interfaces/interfaceGlobalObject/rootReduserObjects";
+import { IMovieMenu, ITVMenu } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 
 type Props = {
     list: IMovieMenu[] | ITVMenu[]

@@ -1,4 +1,4 @@
-import { IMenu, IMovieMenu, ITVMenu } from "Interfaces/interfaceGlobalObject/rootReduserObjects";
+import { IMenu, IMovieMenu, ITVMenu } from "Interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 
 interface IRootReduserState  {
     listMenu: IMenu[],

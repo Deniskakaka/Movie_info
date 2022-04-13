@@ -1,4 +1,5 @@
 import { ITVStateReduser } from "Interfaces/interfaceRedux/state/tvState/ITVStateReduser";
+import { tvActionName } from "Root/utils/other";
 
 const initialState: ITVStateReduser = {
     popular: [],
@@ -12,43 +13,43 @@ const initialState: ITVStateReduser = {
 
 const tvReduser = (state = initialState, action: any) => {
     switch (action.type) {
-        case 'REQUEST_LIST_POPULAR_TV': {
+        case tvActionName.requestPopular: {
             return {
                 ...state,
                 popular: state.popular.concat(action.payload),
             }
         }
-        case 'REQUEST_LIST_AIRING_TODAY_TV': {
+        case tvActionName.requestAiringTodayTV: {
             return {
                 ...state,
                 airing_today: state.airing_today.concat(action.payload),
             }
         }
-        case 'REQUEST_LIST_ON_THE_AIR_TV': {
+        case tvActionName.requestListOnTheAir: {
             return {
                 ...state,
                 TV_on_the_air: state.TV_on_the_air.concat(action.payload),
             }
         }
-        case 'REQUEST_LIST_TOP_RATED_TV': {
+        case tvActionName.requestTopRated: {
             return {
                 ...state,
                 top_rated: state.top_rated.concat(action.payload),
             }
         }
-        case 'REQUEST_TRAILER_TV': {
+        case tvActionName.requestTrailer: {
             return {
                 ...state,
                 trailerTV: state.trailerTV.concat(action.payload)
             }
         }
-        case 'SWITCH_KEY_TRAILER_TV': {
+        case tvActionName.setKeyTrailer: {
             return {
                 ...state,
                 trailerKey: state.trailerKey = action.payload
             }
         }
-        case 'REQUEST_DETAILS_TV': {
+        case tvActionName.requestDetailsTV: {
             return {
                 ...state,
                 detailsTV: state.detailsTV = action.payload

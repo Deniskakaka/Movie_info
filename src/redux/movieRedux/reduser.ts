@@ -1,4 +1,5 @@
 import { IMovieReduserState } from "Interfaces/interfaceRedux/state/movieState/IMovieReduserState";
+import { movieActionName } from "Root/utils/other";
 
 const initialState: IMovieReduserState = {
     popular: [],
@@ -13,49 +14,49 @@ const initialState: IMovieReduserState = {
 
 const movieReduser = (state = initialState, action: any) => {
     switch (action.type) {
-        case 'REQUEST_LIST_POPULAR_MOVIE': {
-            return {
+        case movieActionName.requestPopular: {
+            return { 
                 ...state,
                 popular: state.popular.concat(action.payload),
             }
         }
-        case 'REQUEST_LIST_NOW_PLAY_MOVIE': {
+        case movieActionName.requestPlayNow: {
             return {
                 ...state,
                 now_play: state.now_play.concat(action.payload),
             }
         }
-        case 'REQUEST_LIST_UPCOMING_MOVIE': {
+        case movieActionName.requestUpcoming: {
             return {
                 ...state,
                 upcoming: state.upcoming.concat(action.payload),
             }
         }
-        case 'REQUEST_LIST_TOP_RATED_MOVIE': {
+        case movieActionName.requestTopRated: {
             return {
                 ...state,
                 top_rated: state.top_rated.concat(action.payload),
             }
         }
-        case 'REQUEST_TRAILER_MOVIE': {
+        case movieActionName.requestTrailer: {
             return {
                 ...state,
                 trailerMovie: state.trailerMovie.concat(action.payload)
             }
         }
-        case 'BACKGROUND_TRAILER': {
+        case movieActionName.setBackgroundTrailer: {
             return {
                 ...state,
                 backgroundTrailer: state.backgroundTrailer = action.payload
             }
         }
-        case 'SWITCH_KEY_TRAILER': {
+        case movieActionName.setKeyTrailer: {
             return {
                 ...state,
                 trailerKey: state.trailerKey = action.payload
             }
         }
-        case 'DETAILS_MOVIE': {
+        case movieActionName.requestDetailsMovie: {
             return {
                 ...state,
                 detailsMovie: state.detailsMovie = action.payload

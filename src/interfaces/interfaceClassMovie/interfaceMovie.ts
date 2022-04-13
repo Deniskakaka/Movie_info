@@ -1,4 +1,4 @@
-import { IProductionCompany } from "Interfaces/interfaceGlobalObject/rootReduserObjects";
+import { IProductionCompany } from "Interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 
 export interface IMovie {
     backdrop_path: string,
