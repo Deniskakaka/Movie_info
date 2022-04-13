@@ -23,6 +23,10 @@ export const requestTrailerMovie = (id: number) => {
   return axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${key}&language=en-US`)
 }
 
+export const requestDetailsMovie = (id: number) => {
+  return axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`);
+}
+
 //TV
 export const popularTVRequest = (count: number) => {
   return axios.get(`https://api.themoviedb.org/3/tv/popular?api_key=${key}&language=en-US&page=${count}`)
@@ -42,4 +46,8 @@ export const tvTopRatedRequest = (count: number) => {
 
 export const requestTrailerTV = (id: number) => {
   return axios.get(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${key}&language=en-US`);
+}
+
+export const requestDetailsTV = (id: number) => {
+  return axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=${key}&language=en-US`);
 }

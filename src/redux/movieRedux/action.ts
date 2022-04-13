@@ -1,16 +1,14 @@
 import { Dispatch, Action } from 'redux';
+import DetailsMovie, { ProductionCompanyMovie } from 'Root/class/detailsMovie';
 import { Movie } from "Root/class/movie";
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
-import { IMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
+import { IDetailMovie, IMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
+import { IProductionCompany } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
+import { requestDetailsMovie } from 'Root/utils/requestFunction';
 
-const actionMovieList = (listMovie: IMovie, type: string) => {
-    return {
-        type: type,
-        payload: listMovie,
-    }
-};
 
-export const actionTrailer = (trailer:ITrailerMovie) => {
+//trailers actions
+export const actionTrailer = (trailer: ITrailerMovie) => {
     return {
         type: 'REQUEST_TRAILER_MOVIE',
         payload: trailer
@@ -31,12 +29,42 @@ export const actionSwitchKeyTrailer = (key: string) => {
     }
 };
 
-const actionError = () => {
+//action details movie
+export const actionDetailsMovie = (details: IDetailMovie) => {
     return {
-        type: 'ACTIVE_ERROR',
-        payload: true
+        type: 'DETAILS_MOVIE',
+        payload: details
     }
-}
+};
+
+export const actionRequestDetailsMovie = (id: number): (dispatch: Dispatch<Action>) => void => {
+    return (dispatch: Dispatch<Action>): void => {
+        requestDetailsMovie(id).then(res => {
+            const result = new DetailsMovie(
+                res.data.backdrop_path,
+                res.data.budget,
+                res.data.id,
+                res.data.overview,
+                res.data.production_companies.map((el: IProductionCompany) => new ProductionCompanyMovie(el.id, el.name, el.logo_path)),
+                res.data.release_date,
+                res.data.runtime,
+                res.data.spoken_languages,
+                res.data.title,
+                res.data.vote_average,
+                res.data.homepage,
+            );
+            dispatch(actionDetailsMovie(result));
+        });
+    }
+};
+
+//action lists movie
+const actionMovieList = (listMovie: IMovie, type: string) => {
+    return {
+        type: type,
+        payload: listMovie,
+    }
+};
 
 export const actionRequestMovie = (
     count: number,
@@ -63,8 +91,6 @@ export const actionRequestMovie = (
             if (name === 'now_play' && requestNowPlayList) return dispatch(actionMovieList(result, 'REQUEST_LIST_NOW_PLAY_MOVIE'));
             if (name === 'upcoming' && requestUpcomingList) return dispatch(actionMovieList(result, 'REQUEST_LIST_UPCOMING_MOVIE'));
             if (name === 'top_rated' && requestTopRatedList) return dispatch(actionMovieList(result, 'REQUEST_LIST_TOP_RATED_MOVIE'));
-        }).catch((error) => {
-            dispatch(actionError());
         });
     }
 };

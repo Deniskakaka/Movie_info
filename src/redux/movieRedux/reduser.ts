@@ -6,9 +6,9 @@ const initialState: IMovieReduserState = {
     upcoming: [],
     top_rated: [],
     trailerMovie: [],
+    detailsMovie: {},
     backgroundTrailer: '',
     trailerKey: '',
-    error: false,
 };
 
 const movieReduser = (state = initialState, action: any) => {
@@ -55,10 +55,10 @@ const movieReduser = (state = initialState, action: any) => {
                 trailerKey: state.trailerKey = action.payload
             }
         }
-        case 'ACTIVE_ERROR': {
+        case 'DETAILS_MOVIE': {
             return {
                 ...state,
-                error: state.error = action.payload
+                detailsMovie: state.detailsMovie = action.payload
             }
         }
         default:

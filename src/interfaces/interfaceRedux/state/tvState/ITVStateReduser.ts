@@ -1,4 +1,4 @@
-import { ITV, ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
+import { ITV, ITrailerTV, IDetailTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
 
 export interface ITVStateReduser {
     popular: ITV[],
@@ -6,5 +6,6 @@ export interface ITVStateReduser {
     TV_on_the_air: ITV[],
     top_rated: ITV[],
     trailerTV: ITrailerTV[],
-    trailerKey: string
+    trailerKey: string,
+    detailsTV: IDetailTV | {}
 }

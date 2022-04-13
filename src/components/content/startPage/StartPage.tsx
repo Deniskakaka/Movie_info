@@ -4,13 +4,12 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import SmoothList from 'react-smooth-list';
 
-import Trailer from "Components/ui/Trailer";
+import Trailer from "Components/content/trailers/Trailer";
 import ListPopularPreview from "Components/ui/ListPopularPreview";
-import TrailerPreview from "Components/ui/TrailersPreview";
+import TrailerPreview from "Components/content/trailers/TrailersPreview";
 
-import { actionBackgroundTrailer, actionRequestMovie, actionTrailer } from "Redux/movieRedux/action";
-import { actionTrailerTV } from "Redux/tvRedux/action";
-import { actionRequestTV } from "Redux/tvRedux/action";
+import { actionBackgroundTrailer, actionRequestMovie, actionTrailer, actionRequestDetailsMovie } from "Redux/movieRedux/action";
+import { actionTrailerTV, actionRequestDetailsTV,actionRequestTV } from "Redux/tvRedux/action";
 import { switchListStartPage, switchListTrailer } from "Redux/rootRedux/action";
 import { IglobalReduser } from "Interfaces/globalInterfaces";
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
@@ -67,8 +66,8 @@ const Movie = () => {
                         <ToggleButton value="TV" className="what_popular__switcher__item">On TV</ToggleButton>
                     </ToggleButtonGroup>
                 </div>
-                {activeList === 'theater' && <ListPopularPreview popularMovie={popularMovies} />}
-                {activeList === 'TV' && <ListPopularPreview popularMovie={popularTV} />}
+                {activeList === 'theater' && <ListPopularPreview popularMovie={popularMovies} action={actionRequestDetailsMovie}/>}
+                {activeList === 'TV' && <ListPopularPreview popularMovie={popularTV} action={actionRequestDetailsTV}/>}
             </div>
             <div className="trailers_wrapper" style={{ backgroundImage: `url(${background})` }}>
                 <div className="trailers_wrapper__switcher">
