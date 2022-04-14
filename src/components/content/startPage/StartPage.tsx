@@ -9,7 +9,7 @@ import ListPopularPreview from "Components/ui/ListPopularPreview";
 import TrailerPreview from "Components/content/trailers/TrailersPreview";
 
 import { actionBackgroundTrailer, actionRequestMovie, actionTrailer, actionRequestDetailsMovie } from "Redux/movieRedux/action";
-import { actionTrailerTV, actionRequestDetailsTV,actionRequestTV } from "Redux/tvRedux/action";
+import { actionTrailerTV, actionRequestDetailsTV, actionRequestTV } from "Redux/tvRedux/action";
 import { switchListStartPage, switchListTrailer } from "Redux/rootRedux/action";
 import { IglobalReduser } from "Interfaces/globalInterfaces";
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
@@ -30,26 +30,31 @@ const Movie = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(actionRequestMovie(1, popularMovieRequest, MovieEnum.popular));
-        dispatch(actionRequestTV(1, popularTVRequest, TVEnum.popular));
+        popularMovies.length < 1
+            && dispatch(actionRequestMovie(1, popularMovieRequest, MovieEnum.popular));
+        popularTV.length < 1
+            && dispatch(actionRequestTV(1, popularTVRequest, TVEnum.popular));
     }, []);
 
     useEffect(() => {
-        if (trailersMovie.length > 0) dispatch(actionBackgroundTrailer(trailersMovie[0].poster));
+        trailersMovie.length > 0
+            && dispatch(actionBackgroundTrailer(trailersMovie[0].poster));
     }, [trailersMovie]);
 
     useEffect(() => {
-        createTrailerMovie(popularMovies, requestTrailerMovie, actionTrailer, dispatch);
+        trailersMovie.length < 1
+            && createTrailerMovie(popularMovies, requestTrailerMovie, actionTrailer, dispatch);
     }, [popularMovies]);
 
     useEffect(() => {
-        createTrailerTV(popularTV, requestTrailerTV, actionTrailerTV, dispatch);
+        trailerTV.length < 1
+            && createTrailerTV(popularTV, requestTrailerTV, actionTrailerTV, dispatch);
     }, [popularTV]);
 
     const handleChange = (event: any, action: any) => {
         dispatch(action(event.target.value));
     };
-    
+
     return (
         <section className="start_page">
             <div className="what_popular">
@@ -67,8 +72,8 @@ const Movie = () => {
                         <ToggleButton value="TV" className="what_popular__switcher__item">On TV</ToggleButton>
                     </ToggleButtonGroup>
                 </div>
-                {activeList === 'theater' && <ListPopularPreview popularMovie={popularMovies} action={actionRequestDetailsMovie}/>}
-                {activeList === 'TV' && <ListPopularPreview popularMovie={popularTV} action={actionRequestDetailsTV}/>}
+                {activeList === 'theater' && <ListPopularPreview popularMovie={popularMovies} action={actionRequestDetailsMovie} />}
+                {activeList === 'TV' && <ListPopularPreview popularMovie={popularTV} action={actionRequestDetailsTV} />}
             </div>
             <div className="trailers_wrapper" style={{ backgroundImage: `url(${background})` }}>
                 <div className="trailers_wrapper__switcher">
@@ -85,8 +90,8 @@ const Movie = () => {
                         <ToggleButton value="TV">On TV</ToggleButton>
                     </ToggleButtonGroup>
                 </div>
-                {activeTrailerList === 'theater' && <SmoothList className="flex">{trailersMovie.map((el: ITrailerMovie) => <TrailerPreview trailer={el} activeTrailerList={activeTrailerList}/>)}</SmoothList>}
-                {activeTrailerList === 'TV' && <SmoothList className="flex">{trailerTV.map((el: ITrailerTV) => <TrailerPreview trailer={el} activeTrailerList={activeTrailerList}/>)}</SmoothList>}
+                {activeTrailerList === 'theater' && <SmoothList className="flex">{trailersMovie.map((el: ITrailerMovie) => <TrailerPreview trailer={el} activeTrailerList={activeTrailerList} />)}</SmoothList>}
+                {activeTrailerList === 'TV' && <SmoothList className="flex">{trailerTV.map((el: ITrailerTV) => <TrailerPreview trailer={el} activeTrailerList={activeTrailerList} />)}</SmoothList>}
             </div>
             <Trailer activeTrailerList={activeTrailerList} />
         </section>
