@@ -44,12 +44,12 @@ const Movie = () => {
     useEffect(() => {
         trailersMovie.length < 1
             && createTrailerMovie(popularMovies, requestTrailerMovie, actionTrailer, dispatch);
-    }, [popularMovies]);
+    }, [popularMovies, trailersMovie]);
 
     useEffect(() => {
         trailerTV.length < 1
             && createTrailerTV(popularTV, requestTrailerTV, actionTrailerTV, dispatch);
-    }, [popularTV]);
+    }, [popularTV, trailerTV]);
 
     const handleChange = (event: any, action: any) => {
         dispatch(action(event.target.value));
