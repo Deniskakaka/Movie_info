@@ -8,7 +8,7 @@ import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovi
 import { ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
 
 import { actionBackgroundTrailer, actionSwitchKeyTrailer } from "Redux/movieRedux/action";
-import { actionSwitchKeyTrailerTV } from "Redux/tvRedux/action";
+import { actionSwitchKeyTrailerTV, actionBackgroundTrailerTV } from "Redux/tvRedux/action";
 
 type Props = {
     trailer: ITrailerMovie | ITrailerTV,
@@ -21,7 +21,9 @@ const TrailerPreview = (props: Props) => {
 
     const mouseOver = () => {
         setActive(true);
-        dispatch(actionBackgroundTrailer(props.trailer.poster))
+        props.activeTrailerList === 'theater'
+            ? dispatch(actionBackgroundTrailer(props.trailer.poster))
+            : dispatch(actionBackgroundTrailerTV(props.trailer.poster))
     }
 
     return <Card

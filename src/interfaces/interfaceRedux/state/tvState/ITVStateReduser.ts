@@ -7,5 +7,6 @@ export interface ITVStateReduser {
     top_rated: ITV[],
     trailerTV: ITrailerTV[],
     trailerKey: string,
-    detailsTV: IDetailTV | {}
+    detailsTV: IDetailTV | {},
+    backgroundTrailer: string
 }

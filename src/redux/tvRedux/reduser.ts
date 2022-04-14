@@ -8,6 +8,7 @@ const initialState: ITVStateReduser = {
     top_rated: [],
     trailerTV: [],
     trailerKey: '',
+    backgroundTrailer: '',
     detailsTV: {}
 };
 
@@ -53,6 +54,12 @@ const tvReduser = (state = initialState, action: any) => {
             return {
                 ...state,
                 detailsTV: state.detailsTV = action.payload
+            }
+        }
+        case tvActionName.setBackgroundTrailer: {
+            return {
+                ...state,
+                backgroundTrailer: state.backgroundTrailer = action.payload
             }
         }
         default:

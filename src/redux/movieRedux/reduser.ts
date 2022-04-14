@@ -7,9 +7,9 @@ const initialState: IMovieReduserState = {
     upcoming: [],
     top_rated: [],
     trailerMovie: [],
-    detailsMovie: {},
     backgroundTrailer: '',
     trailerKey: '',
+    detailsMovie: {},
 };
 
 const movieReduser = (state = initialState, action: any) => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -9,7 +9,7 @@ import ListPopularPreview from "Components/ui/ListPopularPreview";
 import TrailerPreview from "Components/content/trailers/TrailersPreview";
 
 import { actionBackgroundTrailer, actionRequestMovie, actionTrailer, actionRequestDetailsMovie } from "Redux/movieRedux/action";
-import { actionTrailerTV, actionRequestDetailsTV, actionRequestTV } from "Redux/tvRedux/action";
+import { actionTrailerTV, actionRequestDetailsTV, actionRequestTV, actionBackgroundTrailerTV } from "Redux/tvRedux/action";
 import { switchListStartPage, switchListTrailer } from "Redux/rootRedux/action";
 import { IglobalReduser } from "Interfaces/globalInterfaces";
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
@@ -26,7 +26,8 @@ const Movie = () => {
     const activeTrailerList = useSelector((state: IglobalReduser) => state.rootReduser.activeListStartTrailer);
     const trailersMovie = useSelector((state: IglobalReduser) => state.movieReduser.trailerMovie);
     const trailerTV = useSelector((state: IglobalReduser) => state.tvReduser.trailerTV);
-    const background = useSelector((state: IglobalReduser) => state.movieReduser.backgroundTrailer);
+    const backgroundMovie = useSelector((state: IglobalReduser) => state.movieReduser.backgroundTrailer);
+    const backgroundTV = useSelector((state: IglobalReduser) => state.tvReduser.backgroundTrailer);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -34,12 +35,12 @@ const Movie = () => {
             && dispatch(actionRequestMovie(1, popularMovieRequest, MovieEnum.popular));
         popularTV.length < 1
             && dispatch(actionRequestTV(1, popularTVRequest, TVEnum.popular));
-    }, []);
+    }, [popularMovies, popularTV]);
 
     useEffect(() => {
-        trailersMovie.length > 0
-            && dispatch(actionBackgroundTrailer(trailersMovie[0].poster));
-    }, [trailersMovie]);
+        !!trailersMovie.length && dispatch(actionBackgroundTrailer(trailersMovie[0].poster));
+        !!trailerTV.length && dispatch(actionBackgroundTrailerTV(trailerTV[0].poster));
+    }, [trailersMovie,trailerTV]);
 
     useEffect(() => {
         trailersMovie.length < 1
@@ -47,13 +48,17 @@ const Movie = () => {
     }, [popularMovies, trailersMovie]);
 
     useEffect(() => {
-        trailerTV.length < 1
-            && createTrailerTV(popularTV, requestTrailerTV, actionTrailerTV, dispatch);
+        trailerTV.length < 1 && createTrailerTV(popularTV, requestTrailerTV, actionTrailerTV, dispatch);
     }, [popularTV, trailerTV]);
 
     const handleChange = (event: any, action: any) => {
         dispatch(action(event.target.value));
     };
+
+    const renderBackgroundTrailers = useMemo(() => {
+        if (activeTrailerList === 'theater' && backgroundMovie) return backgroundMovie;
+        if (activeTrailerList === 'TV' && backgroundTV) return backgroundTV;
+    }, [activeTrailerList, backgroundMovie, backgroundTV]);
 
     return (
         <section className="start_page">
@@ -75,7 +80,7 @@ const Movie = () => {
                 {activeList === 'theater' && <ListPopularPreview popularMovie={popularMovies} action={actionRequestDetailsMovie} />}
                 {activeList === 'TV' && <ListPopularPreview popularMovie={popularTV} action={actionRequestDetailsTV} />}
             </div>
-            <div className="trailers_wrapper" style={{ backgroundImage: `url(${background})` }}>
+            <div className="trailers_wrapper" style={{backgroundImage: `url(${renderBackgroundTrailers})`}}>
                 <div className="trailers_wrapper__switcher">
                     <h3 className="trailers_wrapper__title">Latest Trailers</h3>
                     <ToggleButtonGroup
