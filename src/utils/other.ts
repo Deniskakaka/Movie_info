@@ -30,5 +30,6 @@ export const tvActionName = {
     requestTopRated: 'REQUEST_LIST_TOP_RATED_TV',
     requestTrailer: 'REQUEST_TRAILER_TV',
     setKeyTrailer: 'SWITCH_KEY_TRAILER_TV',
-    requestDetailsTV: 'REQUEST_DETAILS_TV'
+    requestDetailsTV: 'REQUEST_DETAILS_TV',
+    setBackgroundTrailer: 'BACKGROUND_TRAILER_TV',
 }

@@ -76,6 +76,14 @@ export const actionTrailerTV = (trailer: ITrailerTV) => {
     }
 };
 
+export const actionBackgroundTrailerTV = (image: string) => {
+    return {
+        type: tvActionName.setBackgroundTrailer,
+        payload: image
+    }
+};
+
+
 export const actionSwitchKeyTrailerTV = (key: string) => {
     return {
         type: tvActionName.setKeyTrailer,
