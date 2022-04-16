@@ -1,12 +1,12 @@
 import { Dispatch, Action } from 'redux';
-import DetailsMovie, { ProductionCompanyMovie } from 'Root/class/detailsMovie';
-import { Movie } from "Root/class/movie";
+import DetailsMovie, { ProductionCompanyMovie } from 'Root/class/detailsClasses/detailsMovie';
+import { Movie } from "Root/class/previewClasses/movie";
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { IDetailMovie, IMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
 import { IProductionCompany } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
 import { requestDetailsMovie } from 'Root/utils/requestFunction';
 import { MovieEnum, movieActionName } from "Root/utils/other";
-
+import { DetailsFabric } from "Root/class/fabricClass";
 
 //trailers actions
 export const actionTrailer = (trailer: ITrailerMovie) => {
@@ -41,7 +41,7 @@ export const actionDetailsMovie = (details: IDetailMovie) => {
 export const actionRequestDetailsMovie = (id: number): (dispatch: Dispatch<Action>) => void => {
     return (dispatch: Dispatch<Action>): void => {
         requestDetailsMovie(id).then(res => {
-            const result = new DetailsMovie(
+            const result = new DetailsFabric().returnDetailsMovie(
                 res.data.backdrop_path,
                 res.data.budget,
                 res.data.id,

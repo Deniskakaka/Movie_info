@@ -1,10 +1,10 @@
-import TrailerMovie, { TrailerTV } from "Root/class/trailer";
 import { Dispatch, Action } from 'redux';
 import { IDetailMovie, IMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { ITV, ITrailerTV, IDetailTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
 import { requestTrailerMovie, requestTrailerTV } from "Utils/requestFunction";
 import { actionRequestDetailsMovie } from "Redux/movieRedux/action";
 import { actionRequestDetailsTV } from "Redux/tvRedux/action";
+import { fabricTrailer } from "Root/class/fabricClass";
 
 export function createTrailerMovie(
     array: IMovie[],
@@ -14,7 +14,7 @@ export function createTrailerMovie(
     array.map((el: IMovie) => {
         requestFunction(el.id).then((res: any) => {
             res.data.results.slice(0, 1).map((q: ITrailerMovie) =>
-                dispatch(action(new TrailerMovie(
+                dispatch(action(new fabricTrailer().returnTrailerMovie(
                     q.name,
                     q.key,
                     q.published_at,
@@ -33,7 +33,7 @@ export function createTrailerTV(
     array.map((el: ITV) => {
         requestFunction(el.id).then((res: any) => {
             res.data.results.slice(0, 1).map((q: ITrailerTV) =>
-                dispatch(action(new TrailerTV(
+                dispatch(action(new fabricTrailer().returnTrailerTV(
                     q.name,
                     q.key,
                     q.published_at,
