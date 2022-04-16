@@ -35,7 +35,7 @@ const ListStartPopular = (props: Props) => {
         <SmoothList className="wrapper_popular">
             {
                 props.popularMovie.map(el => {
-                    return <Link to={activeList === 'theater' ? '/movie_details' : '/tv_details'}>
+                    return <Link to={activeList === 'theater' ? `/movie_details/${el.id}` : '/tv_details'}>
                         <Card className="popular" onClick={() => hashId(el.id)}>
                             <CardMedia
                                 className="popular__item"

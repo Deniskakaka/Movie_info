@@ -10,16 +10,14 @@ export interface IMovieMenu {
     image: string
 };
 
-
 export interface ITVMenu {
     key: string,
     name: string,
     image: string
 };
-
 export interface IProductionCompany {
-    id: number, 
-    name: string, 
+    id: number,
+    name: string,
     logo_path: string
 };
 
@@ -61,6 +59,16 @@ export interface ISeason {
 }
 
 export interface INetworks {
-    name: string, 
+    name: string,
     logo_path: string
 }
+
+export interface GlobalProperty {
+    getBackdrop_path(): string;
+
+    getPoster_path(): string;
+
+    getRelease_date(): string;
+
+    getVote_average(): number;
+};

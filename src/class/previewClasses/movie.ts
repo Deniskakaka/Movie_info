@@ -1,7 +1,7 @@
 import { IMovie } from "Interfaces/interfaceClassMovie/interfaceMovie";
+import { BasicMethodsMovieAndTV } from "../basicMethods";
 
-
-export class Movie implements IMovie {
+export class Movie extends BasicMethodsMovieAndTV implements IMovie {
     readonly backdrop_path: string;
     readonly id: number;
     readonly original_language: string;
@@ -20,6 +20,7 @@ export class Movie implements IMovie {
         poster_path: string,
         release_date: string,
         vote_average: number) {
+            super(backdrop_path, poster_path, release_date, vote_average);
             this.backdrop_path = backdrop_path,
             this.id = id,
             this.original_language = original_language,
@@ -29,13 +30,4 @@ export class Movie implements IMovie {
             this.release_date = release_date,
             this.vote_average = vote_average
     }
-
-    getBackdrop_path = () => `https://image.tmdb.org/t/p/original/${this.backdrop_path}`;
-
-    getPoster_path = () => `https://image.tmdb.org/t/p/original/${this.poster_path}`;
-
-    getRelease_date = () => this.release_date.split('-').reverse().join('/');
-    
-    getVote_average = () => this.vote_average;
-
 }

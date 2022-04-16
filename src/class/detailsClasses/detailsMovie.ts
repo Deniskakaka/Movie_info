@@ -39,6 +39,8 @@ export default class DetailsMovie implements IDetailMovie {
         this.vote_average = vote_average,
         this.homepage = homepage
     }
+
+    getBackground = () => `https://image.tmdb.org/t/p/original/${this.backdrop_path}`
 };
 
 export class ProductionCompanyMovie implements IProductionCompany {

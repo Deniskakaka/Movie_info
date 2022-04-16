@@ -1,11 +1,12 @@
 import { Dispatch, Action } from 'redux';
-import DetailsTV, { CreatedBy, LastEpisode, Network, ProdationCompanyTV, Season } from 'Root/class/detailsTV';
-import TV from 'Root/class/tv';
+import DetailsTV, { CreatedBy, LastEpisode, Network, ProdationCompanyTV, Season } from 'Root/class/detailsClasses/detailsTV';
+import TV from 'Root/class/previewClasses/tv';
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { ITV, ITrailerTV, IDetailTV } from 'Root/interfaces/interfaceClassMovie/interfaceTV';
 import { ICreatedBy, INetworks, IProductionCompanyTV, ISeason } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
 import { requestDetailsTV } from 'Root/utils/requestFunction';
 import { TVEnum, tvActionName } from "Root/utils/other";
+import { DetailsFabric } from "Root/class/fabricClass";
 
 //action details TV
 export const actionDetailsTV = (detils: IDetailTV) => {
@@ -18,7 +19,7 @@ export const actionDetailsTV = (detils: IDetailTV) => {
 export const actionRequestDetailsTV = (id: number): (dispatch: Dispatch<Action>) => void => {
     return (dispatch: Dispatch<Action>) => {
         requestDetailsTV(id).then(res => {
-            const result = new DetailsTV(
+            const result = new DetailsFabric().returnDetailsTV(
                 res.data.backdrop_path,
                 res.data.created_by.map((el: ICreatedBy) => new CreatedBy(
                     el.id,
@@ -119,7 +120,7 @@ export const actionRequestTV = (
                 el.origin_country,
                 el.original_language,
                 el.name));
-            if (name === TVEnum.popular && requestPopularList)
+            if (name === TVEnum.popular && requestPopularList) 
                 return dispatch(actionTVList(result, tvActionName.requestPopular));
             if (name === TVEnum.airing_today && requestAiringTodayList)
                 return dispatch(actionTVList(result, tvActionName.requestAiringTodayTV));

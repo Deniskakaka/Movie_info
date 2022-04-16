@@ -7,7 +7,7 @@ import {
     ISeason
 } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 
-export default class DetailsTV implements IDetailTV {
+export default class DetailTV implements IDetailTV {
     backdrop_path: string;
     created_by: ICreatedBy[];
     first_air_date: string;

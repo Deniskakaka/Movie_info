@@ -33,14 +33,17 @@ const Movie = () => {
     useEffect(() => {
         popularMovies.length < 1
             && dispatch(actionRequestMovie(1, popularMovieRequest, MovieEnum.popular));
+    }, [popularMovies]);
+
+    useEffect(() => {
         popularTV.length < 1
             && dispatch(actionRequestTV(1, popularTVRequest, TVEnum.popular));
-    }, [popularMovies, popularTV]);
+    }, [popularTV])
 
     useEffect(() => {
         !!trailersMovie.length && dispatch(actionBackgroundTrailer(trailersMovie[0].poster));
         !!trailerTV.length && dispatch(actionBackgroundTrailerTV(trailerTV[0].poster));
-    }, [trailersMovie,trailerTV]);
+    }, [trailersMovie, trailerTV]);
 
     useEffect(() => {
         trailersMovie.length < 1
@@ -80,7 +83,7 @@ const Movie = () => {
                 {activeList === 'theater' && <ListPopularPreview popularMovie={popularMovies} action={actionRequestDetailsMovie} />}
                 {activeList === 'TV' && <ListPopularPreview popularMovie={popularTV} action={actionRequestDetailsTV} />}
             </div>
-            <div className="trailers_wrapper" style={{backgroundImage: `url(${renderBackgroundTrailers})`}}>
+            <div className="trailers_wrapper" style={{ backgroundImage: `url(${renderBackgroundTrailers})` }}>
                 <div className="trailers_wrapper__switcher">
                     <h3 className="trailers_wrapper__title">Latest Trailers</h3>
                     <ToggleButtonGroup
