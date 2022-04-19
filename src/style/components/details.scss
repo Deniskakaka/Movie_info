@@ -1,0 +1,150 @@
+.details_header_wrapper {
+    position: relative;
+    display: flex;
+    height: 730px;
+    background-size: cover;
+    padding: 30px 0;
+
+    &__poster {
+        position: relative;
+        width: 350px;
+        z-index: 100;
+    }
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1350px;
+}
+
+.details_title {
+    color: #fff;
+    margin: 0 0 10px 5px;
+}
+
+.main_info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: "Source Sans Pro", Arial, sans-serif;
+    margin-left: 30px;
+    z-index: 100;
+
+    &__details {
+        display: flex;
+        color: #fff;
+
+        & span {
+            margin: 0 5px;
+        }
+
+        &__actions {
+            position: relative;
+
+            &::after {
+                content: "\2022";
+            }
+
+            &::before {
+                content: "\2022";
+            }
+        }
+    }
+
+    &__other_details {
+        color: #fff;
+        margin-top: 30px;
+
+        &__overview {
+            max-width: 850px;
+        }
+
+        &__cast {
+            display: flex;
+            max-width: fit-content;
+            max-height: 350px;
+            overflow: auto;
+        }
+    }
+}
+
+.language {
+    text-transform: uppercase;
+}
+
+.bacground_blure {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: rgba(48, 45, 45, 0.7);
+    filter: blur(4px);
+    z-index: 1;
+}
+
+.directions,
+.writers,
+.productions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 48%;
+        margin: 5px 2px;
+        font-size: 12px;
+    }
+}
+
+.cast {
+    display: flex;
+    height: 400px;
+    max-width: 950px;
+    overflow: auto;
+
+    &__item {
+        height: 350px;
+        margin: 10px;
+        margin-left: 0;
+    }
+}
+
+.further_information {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+.acauntancy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 250px;
+    margin-top: 10px;
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+
+        &__title {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        &__data {
+            text-transform: uppercase;
+        }
+    }
+}

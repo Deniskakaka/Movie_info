@@ -17,7 +17,7 @@ class App extends Component {
                 <Routes>
                     <Route path="/" element={<StartPage />} />
                     <Route path="/movie_details/:id" element={<MovieDetails />} />
-                    <Route path="/tv_details" element={<MovieDetails />} />
+                    <Route path="/tv_details" element={<div>comming soon</div>} />
                 </Routes>
             </Provider>
         )

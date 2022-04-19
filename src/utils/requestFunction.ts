@@ -26,6 +26,9 @@ export const requestTrailerMovie = (id: number) => {
 export const requestDetailsMovie = (id: number) => {
   return axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`);
 }
+export const requestCastMovie = (id:number) => {
+  return axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${key}&language=en-US`);
+}
 
 //TV
 export const popularTVRequest = (count: number) => {

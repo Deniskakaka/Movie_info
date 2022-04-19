@@ -1,4 +1,4 @@
-import { GlobalProperty, IProductionCompany } from "Interfaces/interfaceGlobalObject/globalObjectsInterfaces";
+import { GlobalProperty, GlobalPropertyDetails, IProductionCompany } from "Interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 
 export interface IMovie extends GlobalProperty {
     backdrop_path: string,
@@ -20,7 +20,7 @@ export interface ITrailerMovie {
     poster: string
 };
 
-export interface IDetailMovie {
+export interface IDetailMovie extends GlobalPropertyDetails {
     backdrop_path: string,
     budget: number,
     id: number,
@@ -32,6 +32,8 @@ export interface IDetailMovie {
     title: string,
     vote_average: number,
     homepage: string,
-
-    getBackground():string
+    revenue: number,
+    original_language: string,
+    genres: { id: number, name: string }[],
+    status: string
 };

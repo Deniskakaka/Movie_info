@@ -26,9 +26,10 @@ const ListStartPopular = (props: Props) => {
         if (rating <= 4) return '#f00505';
     };
 
-    const hashId = (id: number) => {
+    const hashId = (id: number, poster: string) => {
         dispatch(props.action(id));
         localStorage.setItem('id', `${id}`);
+        localStorage.setItem('poster', poster);
     };
 
     return (
@@ -36,7 +37,7 @@ const ListStartPopular = (props: Props) => {
             {
                 props.popularMovie.map(el => {
                     return <Link to={activeList === 'theater' ? `/movie_details/${el.id}` : '/tv_details'}>
-                        <Card className="popular" onClick={() => hashId(el.id)}>
+                        <Card className="popular" onClick={() => hashId(el.id, el.getPoster_path())}>
                             <CardMedia
                                 className="popular__item"
                                 component="img"
