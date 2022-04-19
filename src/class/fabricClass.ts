@@ -56,7 +56,11 @@ export class DetailsFabric implements IfabricaDetails {
         spoken_languages: { name: string; }[],
         title: string,
         vote_average: number,
-        homepage: string): IDetailMovie {
+        homepage: string,
+        revenue: number,
+        original_language: string,
+        genres: { id: number, name: string }[],
+        status: string): IDetailMovie {
         return new DetailsMovie(
             backdrop_path,
             budget,
@@ -68,7 +72,11 @@ export class DetailsFabric implements IfabricaDetails {
             spoken_languages,
             title,
             vote_average,
-            homepage
+            homepage,
+            revenue,
+            original_language,
+            genres,
+            status
         )
     }
     returnDetailsTV(

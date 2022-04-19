@@ -4,9 +4,11 @@ import { Movie } from "Root/class/previewClasses/movie";
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { IDetailMovie, IMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
 import { IProductionCompany } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
-import { requestDetailsMovie } from 'Root/utils/requestFunction';
+import { requestCastMovie, requestDetailsMovie } from 'Root/utils/requestFunction';
 import { MovieEnum, movieActionName } from "Root/utils/other";
 import { DetailsFabric } from "Root/class/fabricClass";
+import { ICast } from 'Root/interfaces/interfaceClassMovie/interfaceCast';
+import { Cast } from 'Root/class/people/cast';
 
 //trailers actions
 export const actionTrailer = (trailer: ITrailerMovie) => {
@@ -54,6 +56,10 @@ export const actionRequestDetailsMovie = (id: number): (dispatch: Dispatch<Actio
                 res.data.title,
                 res.data.vote_average,
                 res.data.homepage,
+                res.data.revenue,
+                res.data.original_language,
+                res.data.genres,
+                res.data.status
             );
             dispatch(actionDetailsMovie(result));
         });
@@ -100,3 +106,36 @@ export const actionRequestMovie = (
         });
     }
 };
+
+
+//people movie
+const actionCastMovie = (cast: ICast) => {
+    return {
+        type: movieActionName.requestCastMovie,
+        payload: cast
+    }
+}
+
+export const actionRequestCastMovie = (id: number) => {
+    return (dispatch: Dispatch<Action>): void => {
+        requestCastMovie(id).then(res => {
+            const cast = res.data.cast.map((el: ICast) => {
+                return new Cast(
+                    el.id,
+                    el.known_for_department,
+                    el.name,
+                    el.profile_path,
+                    el.character)
+            });
+            const crew = res.data.crew.map((el: ICast) => {
+                return new Cast(
+                    el.id,
+                    el.known_for_department,
+                    el.name,
+                    el.profile_path,
+                    el.character)
+            });
+            dispatch(actionCastMovie(cast.concat(crew)));
+        })
+    }
+}

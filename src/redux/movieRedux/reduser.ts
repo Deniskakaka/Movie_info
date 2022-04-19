@@ -1,5 +1,7 @@
 import { IMovieReduserState } from "Interfaces/interfaceRedux/state/movieState/IMovieReduserState";
+import DetailsMovie from "Root/class/detailsClasses/detailsMovie";
 import { movieActionName } from "Root/utils/other";
+import { Cast } from "Root/class/people/cast";
 
 const initialState: IMovieReduserState = {
     popular: [],
@@ -9,13 +11,14 @@ const initialState: IMovieReduserState = {
     trailerMovie: [],
     backgroundTrailer: '',
     trailerKey: '',
-    detailsMovie: {},
+    detailsMovie: new DetailsMovie('', 0, 0, '', [], '', 0, [], '', 0, '', 0, '', [{ id: 0, name: '' }], ''),
+    cast: [new Cast(0, '', '', '', '')],
 };
 
 const movieReduser = (state = initialState, action: any) => {
     switch (action.type) {
         case movieActionName.requestPopular: {
-            return { 
+            return {
                 ...state,
                 popular: state.popular.concat(action.payload),
             }
@@ -60,6 +63,12 @@ const movieReduser = (state = initialState, action: any) => {
             return {
                 ...state,
                 detailsMovie: state.detailsMovie = action.payload
+            }
+        }
+        case movieActionName.requestCastMovie: {
+            return {
+                ...state,
+                cast: state.cast = action.payload
             }
         }
         default:

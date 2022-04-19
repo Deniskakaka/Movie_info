@@ -20,7 +20,8 @@ export const movieActionName = {
     requestTrailer: 'REQUEST_TRAILER_MOVIE',
     setBackgroundTrailer: 'BACKGROUND_TRAILER',
     setKeyTrailer: 'SWITCH_KEY_TRAILER',
-    requestDetailsMovie: 'DETAILS_MOVIE'
+    requestDetailsMovie: 'DETAILS_MOVIE',
+    requestCastMovie: 'CAST_MOVIE',
 }
 
 export const tvActionName = {

@@ -1,7 +1,8 @@
 import { IDetailMovie } from "Interfaces/interfaceClassMovie/interfaceMovie";
 import { IProductionCompany } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
+import { BasicMethodDetailsMovieAndTV } from "../basicMethods";
 
-export default class DetailsMovie implements IDetailMovie {
+export default class DetailsMovie extends BasicMethodDetailsMovieAndTV implements IDetailMovie {
     backdrop_path: string;
     budget: number;
     id: number;
@@ -13,6 +14,10 @@ export default class DetailsMovie implements IDetailMovie {
     title: string;
     vote_average: number;
     homepage: string;
+    revenue: number;
+    original_language: string;
+    genres: { id: number, name: string }[]
+    status: string;
     
     constructor(
         backdrop_path: string,
@@ -26,7 +31,12 @@ export default class DetailsMovie implements IDetailMovie {
         title: string,
         vote_average: number,
         homepage: string,
+        revenue: number,
+        original_language: string,
+        genres: { id: number, name: string }[],
+        status: string
     ) {
+        super(backdrop_path, release_date, revenue, runtime, budget);
         this.backdrop_path = backdrop_path,
         this.budget = budget,
         this.id = id,
@@ -37,10 +47,12 @@ export default class DetailsMovie implements IDetailMovie {
         this.spoken_languages = spoken_languages,
         this.title = title,
         this.vote_average = vote_average,
-        this.homepage = homepage
+        this.homepage = homepage,
+        this.revenue = revenue,
+        this.original_language = original_language,
+        this.genres = genres,
+        this.status = status
     }
-
-    getBackground = () => `https://image.tmdb.org/t/p/original/${this.backdrop_path}`
 };
 
 export class ProductionCompanyMovie implements IProductionCompany {

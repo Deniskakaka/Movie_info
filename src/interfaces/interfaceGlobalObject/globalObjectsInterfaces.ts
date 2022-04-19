@@ -72,3 +72,11 @@ export interface GlobalProperty {
 
     getVote_average(): number;
 };
+
+export interface GlobalPropertyDetails {
+    getBackdrop_path(): string;
+    getRelease_date(): string;
+    getRevenue(type: string, currency: string): string;
+    getRunTime(): string;
+    getBudget(type: string, currency: string): string
+}

@@ -54,8 +54,6 @@ export function actionRequestDetails(
     dispatch: Dispatch<any>,
     action: typeof actionRequestDetailsMovie | typeof actionRequestDetailsTV,
     array: IDetailMovie | IDetailTV | {}) {
-    if (Object.keys(array).length === 0) {
-        const id = +localStorage.getItem('id');
-        dispatch(action(id));
-    }
+    const id = +localStorage.getItem('id');
+    dispatch(action(id));
 };
