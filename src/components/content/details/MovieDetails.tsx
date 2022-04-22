@@ -8,9 +8,11 @@ import { actionRequestDetails } from "Root/utils/componentsFunctions";
 import DetailsHead from "./components/Details_head";
 import ListCast from "./components/ListCast";
 import { ICast } from "Root/interfaces/interfaceClassMovie/interfaceCast";
+import Acauntancy from "./components/Acauntancy";
+import Media from "./components/Media";
 
 const MovieDetails = () => {
-    const [poster, setPoster] = useState('');
+    const [poster, setPoster] = useState<string>('');
     const location = useLocation();
     const detailsMovie = useSelector((state: IglobalReduser) => state.movieReduser.detailsMovie);
     const cast = useSelector((state: IglobalReduser) => state.movieReduser.cast);
@@ -27,7 +29,7 @@ const MovieDetails = () => {
 
     useEffect(() => {
         detailsMovie.id !== 0 && dispatch(actionRequestCastMovie(detailsMovie.id))
-    }, [detailsMovie])
+    }, [detailsMovie]);
 
     const renderDetailsHeader = useMemo(() => {
         return <DetailsHead cast={cast} details={detailsMovie} poster={poster} />
@@ -38,24 +40,11 @@ const MovieDetails = () => {
     }, [cast]);
 
     const renderAcauntancy = useMemo(() => {
-        return <div className="acauntancy">
-            <div className="acauntancy__item">
-                <span className="acauntancy__item__title">Status</span>
-                <span className="acauntancy__item__data">{detailsMovie.status}</span>
-            </div>
-            <div className="acauntancy__item">
-                <span className="acauntancy__item__title">Original Language</span>
-                <span className="acauntancy__item__data">{detailsMovie.original_language}</span>
-            </div>
-            <div className="acauntancy__item">
-                <span className="acauntancy__item__title">Budget</span>
-                <span className="acauntancy__item__data">{detailsMovie.getBudget('en-EN', 'USD')}</span>
-            </div>
-            <div className="acauntancy__item">
-                <span className="acauntancy__item__title">Revenue</span>
-                <span className="acauntancy__item__data">{detailsMovie.getRevenue('en-EN', 'USD')}</span>
-            </div>
-        </div>
+        return <Acauntancy details={detailsMovie} />
+    }, [detailsMovie]);
+
+    const renderMedia = useMemo(() => {
+        return <Media id={detailsMovie.id} nameMovie={detailsMovie.title}/>
     }, [detailsMovie]);
 
     return (
@@ -65,6 +54,7 @@ const MovieDetails = () => {
                 {renderListCast}
                 {renderAcauntancy}
             </div>
+            {renderMedia}
         </div>
     )
 };

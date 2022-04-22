@@ -59,7 +59,7 @@ export const actionRequestDetailsMovie = (id: number): (dispatch: Dispatch<Actio
                 res.data.revenue,
                 res.data.original_language,
                 res.data.genres,
-                res.data.status
+                res.data.status,
             );
             dispatch(actionDetailsMovie(result));
         });

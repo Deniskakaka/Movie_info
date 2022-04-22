@@ -20,6 +20,7 @@ const TrailerPreview = (props: Props) => {
     const dispatch = useDispatch();
 
     const mouseOver = () => {
+        console.log(props.trailer.poster)
         setActive(true);
         props.activeTrailerList === 'theater'
             ? dispatch(actionBackgroundTrailer(props.trailer.poster))

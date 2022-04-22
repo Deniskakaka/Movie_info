@@ -1,7 +1,7 @@
 import { Dispatch, Action } from 'redux';
 import { IDetailMovie, IMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { ITV, ITrailerTV, IDetailTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
-import { requestTrailerMovie, requestTrailerTV } from "Utils/requestFunction";
+import { requestTrailerMovie, requestTrailerTV, requestLinksMovie } from "Utils/requestFunction";
 import { actionRequestDetailsMovie } from "Redux/movieRedux/action";
 import { actionRequestDetailsTV } from "Redux/tvRedux/action";
 import { fabricTrailer } from "Root/class/fabricClass";

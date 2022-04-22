@@ -37,7 +37,8 @@ export interface IfabricaDetails {
         revenue: number,
         original_language: string,
         genres: { id: number, name: string }[],
-        status: string
+        status: string,
+        links: { facebook: string, twitter: string, instagram: string }
     ): IDetailMovie,
     returnDetailsTV(
         backdrop_path: string,

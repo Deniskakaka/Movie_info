@@ -18,6 +18,7 @@ export default class DetailsMovie extends BasicMethodDetailsMovieAndTV implement
     original_language: string;
     genres: { id: number, name: string }[]
     status: string;
+    links: { facebook: string, twitter: string, instagram: string }
     
     constructor(
         backdrop_path: string,
@@ -34,7 +35,7 @@ export default class DetailsMovie extends BasicMethodDetailsMovieAndTV implement
         revenue: number,
         original_language: string,
         genres: { id: number, name: string }[],
-        status: string
+        status: string,
     ) {
         super(backdrop_path, release_date, revenue, runtime, budget);
         this.backdrop_path = backdrop_path,
