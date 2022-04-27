@@ -44,12 +44,6 @@ export function createTrailerTV(
     });
 };
 
-export function returnNameTrailer(array: ITrailerMovie[] | ITrailerTV[], key: string) {
-    if (array.length > 0 && key !== '') {
-        return array.filter((el: ITrailerMovie | ITrailerTV) => el.key === key)[0].nameMovie;
-    }
-};
-
 export function actionRequestDetails(
     dispatch: Dispatch<any>,
     action: typeof actionRequestDetailsMovie | typeof actionRequestDetailsTV,

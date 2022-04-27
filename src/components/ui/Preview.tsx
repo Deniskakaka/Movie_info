@@ -9,10 +9,10 @@ type Props = {
 
 const Preview = (props: Props) => {
 
-    return (<div className="preview">
+    return (<div>
         {
             props.listMovies.map(el => {
-                return <Card sx={{ maxWidth: 180, minWidth: 120 }} className="preview__item">
+                return <Card sx={{ maxWidth: 180, minWidth: 120 }}>
                     <CardMedia
                         component="img"
                         alt="poster movie"

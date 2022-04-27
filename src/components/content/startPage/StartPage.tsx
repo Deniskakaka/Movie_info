@@ -10,29 +10,97 @@ import TrailerPreview from "Components/content/trailers/TrailersPreview";
 
 import { actionBackgroundTrailer, actionRequestMovie, actionTrailer, actionRequestDetailsMovie } from "Redux/movieRedux/action";
 import { actionTrailerTV, actionRequestDetailsTV, actionRequestTV, actionBackgroundTrailerTV } from "Redux/tvRedux/action";
-import { switchListStartPage, switchListTrailer } from "Redux/rootRedux/action";
+import { switchActiveMenu, switchListStartPage, switchListTrailer } from "Redux/rootRedux/action";
 import { IglobalReduser } from "Interfaces/globalInterfaces";
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { createTrailerMovie, createTrailerTV } from "Root/utils/componentsFunctions";
 import { TVEnum, MovieEnum } from "Root/utils/other";
+import Radium from 'radium';
 
 import { popularMovieRequest, popularTVRequest, requestTrailerMovie, requestTrailerTV } from "Utils/requestFunction";
 import { ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
 
 const Movie = () => {
+    const activeTrailerList = useSelector((state: IglobalReduser) => state.rootReduser.activeListStartTrailer);
+    const backgroundMovie = useSelector((state: IglobalReduser) => state.movieReduser.backgroundTrailer);
+    const backgroundTV = useSelector((state: IglobalReduser) => state.tvReduser.backgroundTrailer);
     const popularMovies = useSelector((state: IglobalReduser) => state.movieReduser.popular);
     const popularTV = useSelector((state: IglobalReduser) => state.tvReduser.popular);
     const activeList = useSelector((state: IglobalReduser) => state.rootReduser.activeListStartPage);
-    const activeTrailerList = useSelector((state: IglobalReduser) => state.rootReduser.activeListStartTrailer);
     const trailersMovie = useSelector((state: IglobalReduser) => state.movieReduser.trailerMovie);
     const trailerTV = useSelector((state: IglobalReduser) => state.tvReduser.trailerTV);
-    const backgroundMovie = useSelector((state: IglobalReduser) => state.movieReduser.backgroundTrailer);
-    const backgroundTV = useSelector((state: IglobalReduser) => state.tvReduser.backgroundTrailer);
+
+    const renderBackgroundTrailers = useMemo(() => {
+        if (activeTrailerList === 'theater' && backgroundMovie) return backgroundMovie;
+        if (activeTrailerList === 'TV' && backgroundTV) return backgroundTV;
+    }, [activeTrailerList, backgroundMovie, backgroundTV]);
+
+    const styles: Radium.StyleRules = {
+        start_page: {
+            paddingBottom: '50px'
+        },
+        what_popular: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            padding: '10px',
+            width: '85%',
+            margin: '0 auto'
+        },
+        switcher: {
+            display: 'flex',
+            alignItems: 'center'
+        },
+        popular_title: {
+            marginLeft: '10px',
+            marginRight: '20px',
+            fontFamily: 'sans - serif',
+            paddingTop: '10px',
+            fontWeight: '900'
+        },
+        switcher__group: {},
+        switcher__item: {
+            height: '30px !important'
+        },
+        trailers: {
+            display: 'flex',
+            maxWidth: '100%',
+            overflow: 'auto',
+            position: 'relative',
+            flexDirection: 'row',
+            width: '85%',
+            margin: '40px auto',
+            padding: '90px 50px',
+            backgroundSize: 'cover',
+            borderRadius: '10px',
+            backgroundImage: `url(${renderBackgroundTrailers})`
+        },
+        trailer__switcher: {
+            display: 'flex',
+            position: 'absolute',
+            top: '10px',
+            left: '60px',
+            backgroundColor: '#fff',
+            borderRadius: '10px'
+        },
+        trailers__title: {
+            color: '#222',
+            paddingTop: '5px',
+            marginBottom: '0',
+            marginRight: '15px',
+            marginLeft: '10px'
+        },
+        flex: {
+            display: 'flex'
+        },
+    }
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         popularMovies.length < 1
             && dispatch(actionRequestMovie(1, popularMovieRequest, MovieEnum.popular));
+        dispatch(switchActiveMenu(''));
     }, [popularMovies]);
 
     useEffect(() => {
@@ -43,12 +111,9 @@ const Movie = () => {
     useEffect(() => {
         !!trailersMovie.length && dispatch(actionBackgroundTrailer(trailersMovie[0].poster));
         !!trailerTV.length && dispatch(actionBackgroundTrailerTV(trailerTV[0].poster));
-    }, [trailersMovie, trailerTV]);
-
-    useEffect(() => {
         trailersMovie.length < 1
             && createTrailerMovie(popularMovies, requestTrailerMovie, actionTrailer, dispatch);
-    }, [popularMovies, trailersMovie]);
+    }, [trailersMovie, trailerTV]);
 
     useEffect(() => {
         trailerTV.length < 1 && createTrailerTV(popularTV, requestTrailerTV, actionTrailerTV, dispatch);
@@ -58,48 +123,57 @@ const Movie = () => {
         dispatch(action(event.target.value));
     };
 
-    const renderBackgroundTrailers = useMemo(() => {
-        if (activeTrailerList === 'theater' && backgroundMovie) return backgroundMovie;
-        if (activeTrailerList === 'TV' && backgroundTV) return backgroundTV;
-    }, [activeTrailerList, backgroundMovie, backgroundTV]);
-
     return (
-        <section className="start_page">
-            <div className="what_popular">
-                <div className="what_popular__switcher">
-                    <h3 className="what_popular__title">What's Popular</h3>
+        <section style={styles.start_page}>
+            <div style={styles.what_popular}>
+                <div style={styles.switcher}>
+                    <h3 style={styles.popular_title}>What's Popular</h3>
                     <ToggleButtonGroup
                         color="primary"
                         exclusive
                         value={activeList}
                         size="small"
-                        className="what_popular__switcher__group_item"
+                        style={styles.switcher__group}
                         onChange={(event) => handleChange(event, switchListStartPage)}
                     >
-                        <ToggleButton value="theater" className="what_popular__switcher__item">in Theaters</ToggleButton>
-                        <ToggleButton value="TV" className="what_popular__switcher__item">On TV</ToggleButton>
+                        <ToggleButton value="theater" style={styles.switcher__item}>in Theaters</ToggleButton>
+                        <ToggleButton value="TV" style={styles.switcher__item}>On TV</ToggleButton>
                     </ToggleButtonGroup>
                 </div>
-                {activeList === 'theater' && <ListPopularPreview popularMovie={popularMovies} action={actionRequestDetailsMovie} />}
-                {activeList === 'TV' && <ListPopularPreview popularMovie={popularTV} action={actionRequestDetailsTV} />}
+                {activeList === 'theater'
+                    && <ListPopularPreview popularMovie={popularMovies} action={actionRequestDetailsMovie} />}
+                {activeList === 'TV'
+                    && <ListPopularPreview popularMovie={popularTV} action={actionRequestDetailsTV} />}
             </div>
-            <div className="trailers_wrapper" style={{ backgroundImage: `url(${renderBackgroundTrailers})` }}>
-                <div className="trailers_wrapper__switcher">
-                    <h3 className="trailers_wrapper__title">Latest Trailers</h3>
+            <div style={styles.trailers}>
+                <div style={styles.trailer__switcher}>
+                    <h3 style={styles.trailers__title}>Latest Trailers</h3>
                     <ToggleButtonGroup
                         color="primary"
                         exclusive
                         value={activeTrailerList}
                         size="small"
-                        className="trailer_wrapper__buttons"
+                        style={styles.trailer__buttons}
                         onChange={(event) => handleChange(event, switchListTrailer)}
                     >
                         <ToggleButton value="theater">in Theaters</ToggleButton>
                         <ToggleButton value="TV">On TV</ToggleButton>
                     </ToggleButtonGroup>
                 </div>
-                {activeTrailerList === 'theater' && <SmoothList className="flex">{trailersMovie.map((el: ITrailerMovie) => <TrailerPreview trailer={el} activeTrailerList={activeTrailerList} />)}</SmoothList>}
-                {activeTrailerList === 'TV' && <SmoothList className="flex">{trailerTV.map((el: ITrailerTV) => <TrailerPreview trailer={el} activeTrailerList={activeTrailerList} />)}</SmoothList>}
+                {activeTrailerList === 'theater'
+                    && <SmoothList>
+                        <div style={styles.flex}>
+                            {trailersMovie.map((el: ITrailerMovie, index: number) =>
+                                <TrailerPreview key={index} trailer={el} activeTrailerList={activeTrailerList} />)}
+                        </div>
+                    </SmoothList>}
+                {activeTrailerList === 'TV'
+                    && <SmoothList className="flex">
+                        <div style={styles.flex}>
+                            {trailerTV.map((el: ITrailerTV, index: number) =>
+                                <TrailerPreview key={index} trailer={el} activeTrailerList={activeTrailerList} />)}
+                        </div>
+                    </SmoothList>}
             </div>
             <Trailer activeTrailerList={activeTrailerList} />
         </section>

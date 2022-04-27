@@ -1,4 +1,5 @@
 import { ITVStateReduser } from "Interfaces/interfaceRedux/state/tvState/ITVStateReduser";
+import { defaultValueDetailsTV } from "Root/utils/defaultValues";
 import { tvActionName } from "Root/utils/other";
 
 const initialState: ITVStateReduser = {
@@ -9,7 +10,7 @@ const initialState: ITVStateReduser = {
     trailerTV: [],
     trailerKey: '',
     backgroundTrailer: '',
-    detailsTV: {}
+    detailsTV: defaultValueDetailsTV
 };
 
 const tvReduser = (state = initialState, action: any) => {

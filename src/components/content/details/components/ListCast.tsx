@@ -4,20 +4,35 @@ import CardMedia from '@mui/material/CardMedia';
 import { ICast } from "Root/interfaces/interfaceClassMovie/interfaceCast";
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
+import Radium from 'radium';
 
 type Props = {
     cast: ICast[]
 }
 
 const ListCast = (props: Props) => {
+    const styles: Radium.StyleRules = {
+        cast: {
+            display: 'flex',
+            height: '400px',
+            maxWidth: '950px',
+            overflow: 'auto'
+        },
+        item: {
+            height: '350px',
+            margin: '10px',
+            marginLeft: '0'
+        }
+    }
+
     return (
-        <div className="cast">
+        <div style={styles.cast}>
             {
                 props.cast.map((el: ICast, index: number) => {
-                    return <Card className="cast__item" sx={{ minWidth: 140 }}>
+                    return <Card style={styles.item} key={index} sx={{ minWidth: 140 }}>
                         <CardMedia
                             component="img"
-                            alt="green iguana"
+                            alt="cast"
                             height="195"
                             image={`${el.getBackdrop_path()}`}
                         />

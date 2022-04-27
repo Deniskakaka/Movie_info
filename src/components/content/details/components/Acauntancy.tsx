@@ -18,11 +18,11 @@ const Acauntancy = (props: Props) => {
             alignItems: 'flex-start',
             justifyContent: 'space-between',
             height: '250px',
-            marginTop: '10px'
+            marginTop: '10px',
         },
         acauntancy__links: {
             display: 'flex',
-            width: '150p',
+            width: '150px',
             justifyContent: 'space-between'
         },
         item: {
