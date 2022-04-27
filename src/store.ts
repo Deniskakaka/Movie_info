@@ -12,7 +12,7 @@ const store = createStore(
         movieReduser,
         tvReduser
     }),
-    applyMiddleware(thunk)
+    applyMiddleware(logger, thunk)
 );
 
 export default store;

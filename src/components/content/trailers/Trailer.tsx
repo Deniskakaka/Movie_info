@@ -5,23 +5,43 @@ import CloseIcon from '@mui/icons-material/Close';
 import { actionSwitchKeyTrailer } from 'Root/redux/movieRedux/action';
 import { actionSwitchKeyTrailerTV } from "Redux/tvRedux/action";
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
-import { returnNameTrailer } from "Root/utils/componentsFunctions";
+import Radium from 'radium';
 
 type Props = {
     activeTrailerList: string
 }
 
 const Trailer = (props: Props) => {
+    const styles: Radium.StyleRules = {
+        trailer: {
+            position: 'fixed',
+            backgroundColor: '#000',
+            width: '100%',
+            maxWidth: '1483px',
+            height: '833px',
+            padding: '80px 2px 0 2px',
+            top: '42px',
+            left: '10%',
+            borderRadius: '5px',
+            zIndex: '100'
+        },
+        title: {
+            position: 'absolute',
+            top: '-10px',
+            left: '30px',
+            color: '#fff'
+        }, 
+        action_trailer: {
+            width: '100%',
+            height: '100%',
+            minWidth: '90px',
+            minHeight: '50px',
+            border: 'none'
+        }
+    }
     const keyMovie = useSelector((state: IglobalReduser) => state.movieReduser.trailerKey);
     const keyTV = useSelector((state: IglobalReduser) => state.tvReduser.trailerKey);
-    const trailersMovie = useSelector((state: IglobalReduser) => state.movieReduser.trailerMovie);
-    const trailerTV = useSelector((state: IglobalReduser) => state.tvReduser.trailerTV);
     const dispatch = useDispatch();
-
-    const renderTitleTrailer = useMemo(() => {
-        if (props.activeTrailerList === 'theater') return returnNameTrailer(trailersMovie, keyMovie);
-        if (props.activeTrailerList === 'TV') return returnNameTrailer(trailerTV, keyTV);
-    }, [trailersMovie, keyMovie, keyTV, trailerTV, props])
 
     const returnKey = useMemo(() => keyMovie ? keyMovie : keyTV, [keyMovie, keyTV])
 
@@ -33,13 +53,13 @@ const Trailer = (props: Props) => {
     }
 
     return (
-        <div className="trailer" style={{ display: renderTrailerComponent && 'block' }}>
-            <CloseIcon color="error" onClick={() => clearKeys()} className="trailer__close" />
-            <h2 className="trailer__title">{renderTitleTrailer}</h2>
-            <iframe
-                className="action_trailer"
+        renderTrailerComponent && <div style={styles.trailer}>
+            <CloseIcon color="error" onClick={() => clearKeys()} sx={{ fontSize: 30 }} />
+            <h2 style={styles.title}></h2>
+            {returnKey && <iframe
+                style={styles.action_trailer}
                 src={`//www.youtube.com/embed/${returnKey}?autoplay=1&origin=https%3A%2F%2Fwww.themoviedb.org&hl=en&modestbranding=1&fs=1&autohide=1`}>
-            </iframe>
+            </iframe>}
         </div>
     )
 }

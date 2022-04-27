@@ -6,13 +6,68 @@ import { requestImagesMovie } from "Root/utils/requestFunction";
 import { requestTrailerMovie } from "Root/utils/requestFunction";
 import Trailer from "../../trailers/Trailer";
 import TrailerPreview from "../../trailers/TrailersPreview";
+import Radium from 'radium';
 
 type Props = {
     id: number,
-    nameMovie: string
+    nameMovie: string,
+    nameTrailerList: string
 }
 
 const Media = (props: Props) => {
+    const styles: Radium.StyleRules = {
+        media: {
+            maxWidth: '1350px',
+            width: '100%',
+            margin: '20px auto 0 auto'
+        },
+        menu: {
+            display: 'flex',
+            alignItems: 'center'
+        },
+        list: {
+            margin: '0',
+            marginBottom: '5px',
+            display: 'flex',
+            justifyContent: 'space-around',
+            width: '400px',
+            height: 'fit-content'
+        },
+        item: {
+            height: 'fit-content',
+            fontSize: '16px',
+            fontFamily: 'Source Sans Pro, Arial, sans-serif',
+            fontWeight: '700',
+            listStyleType: 'none',
+            cursor: 'pointer',
+            borderBottom: '4px solid transparent',
+            paddingBottom: '5px',
+        },
+        active: {
+            height: 'fit-content',
+            fontSize: '16px',
+            fontFamily: 'Source Sans Pro, Arial, sans-serif',
+            fontWeight: '700',
+            listStyleType: 'none',
+            cursor: 'pointer',
+            borderBottom: '4px solid #222',
+            paddingBottom: '5px',
+        },
+        count: {
+            marginLeft: '5px',
+            color: '#868686'
+        },
+        list_media: {
+            display: 'flex',
+            maxWidth: '950px',
+            height: '260px',
+            overflow: 'auto',
+            paddingBottom: '20px'
+        },
+        list_media_item: {
+            marginRight: '10px'
+        }
+    }
     const [poster, setPoster] = useState<string[]>([]);
     const [backdrop, setBackdrop] = useState<string[]>([]);
     const [trailerList, setTrailerList] = useState<ITrailerMovie[]>([]);
@@ -34,41 +89,69 @@ const Media = (props: Props) => {
         });
     }, []);
 
+    useEffect(() => {
+        poster.length > 0 && props.nameMovie
+            && requestTrailerMovie(parseInt(location.pathname.replace(/[^\d]/g, '')))
+                .then((res: any) => {
+                    const result = res.data.results.map((el: ITrailerMovie, index: number) => {
+                        return new TrailerMovie(
+                            el.name,
+                            el.key,
+                            el.published_at,
+                            el.id,
+                            props.nameMovie,
+                            poster[index]
+                        )
+                    });
+                    setTrailerList(result);
+                });
+    }, [poster, props])
+
     const onChange = (name: string) => setActiveList(name);
 
     return (
-        <div className="media">
-            <div className="media__menu">
+        <div style={styles.media}>
+            <div style={styles.menu}>
                 <h2>Media</h2>
-                <ol className="media__menu__list">
+                <ol style={styles.list}>
                     <li
-                        className="media__menu__list__item"
+                        style={styles.item}
                         onClick={() => onChange('Video')}
                     >
                         Video
-                        <span>{trailerList.length}</span>
+                        <span style={styles.count}>{trailerList.length}</span>
                     </li>
                     <li
-                        className={`media__menu__list__item ${activeList === 'Backdrops' ? 'activeList' : ''}`}
+                        style={activeList !== 'Backdrops' ? styles.item : styles.active}
                         onClick={() => onChange('Backdrops')}>
                         Backdrops
-                        <span>{backdrop.length}</span>
+                        <span style={styles.count}>{backdrop.length}</span>
                     </li>
                     <li
-                        className={`media__menu__list__item ${activeList === 'Posters' ? 'activeList' : ''}`}
+                        style={activeList !== 'Posters' ? styles.item : styles.active}
                         onClick={() => onChange('Posters')}>
                         Posters
-                        <span>{poster.length}</span>
+                        <span style={styles.count}>{poster.length}</span>
                     </li>
                 </ol>
             </div>
             <div>
-                {activeList === 'Posters' && <div className="media__poster">
-                    {poster.map(el => <img className="media__poster__item" src={el} />)}
+                {activeList === 'Posters' && <div style={styles.list_media}>
+                    {poster.slice(0, 10).map((el, index) =>
+                        <img key={index} style={styles.list_media_item} src={el} />)}
                 </div>}
-                {activeList === 'Backdrops' && <div className="media__backdrop">
-                    {backdrop.map(el => <img className="media__backdrop__item" src={el} />)}
+                {activeList === 'Backdrops' && <div style={styles.list_media}>
+                    {backdrop.slice(0, 10).map((el, index) =>
+                        <img key={index} style={styles.list_media_item} src={el} />)}
                 </div>}
+                {activeList === 'Video'
+                    && <div style={styles.list_media}>{trailerList.map((el, index) =>
+                        <TrailerPreview
+                            key={index}
+                            trailer={el}
+                            activeTrailerList={props.nameTrailerList} />)}
+                    </div>}
+                {<Trailer activeTrailerList={props.nameTrailerList} />}
             </div>
         </div>
     )

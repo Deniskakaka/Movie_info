@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -9,6 +9,7 @@ import SmoothList from 'react-smooth-list';
 import { useDispatch, useSelector } from "react-redux";
 import { IglobalReduser } from "Root/interfaces/globalInterfaces";
 import { Link } from "react-router-dom";
+import Radium from 'radium';
 
 type Props = {
     popularMovie: IMovie[] | ITV[],
@@ -16,6 +17,42 @@ type Props = {
 };
 
 const ListStartPopular = (props: Props) => {
+    const styles: Radium.StyleRules = {
+        wrapper: {
+            display: 'flex',
+            maxWidth: '100%',
+            overflow: 'auto',
+            padding: '20px 0',
+        },
+        popular: {
+            position: 'relative',
+            maxWidth: '150px',
+            minWidth: '150px',
+            minHeight: '370px',
+            margin: '0 10px',
+            transition: 'all 0.3s ease',
+        },
+        rating: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            top: '5px',
+            right: '5px',
+            border: '4px solid #fff',
+            color: '#fff',
+            backgroundColor: '#222',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            fontFamily: 'Consensus',
+            fontSize: '13px'
+        },
+        text: {
+            fontSize: '8px',
+            marginBottom: '7px'
+        }
+    }
     const activeList = useSelector((state: IglobalReduser) => state.rootReduser.activeListStartPage);
     const dispatch = useDispatch();
 
@@ -32,36 +69,35 @@ const ListStartPopular = (props: Props) => {
         localStorage.setItem('poster', poster);
     };
 
+
     return (
-        <SmoothList className="wrapper_popular">
-            {
-                props.popularMovie.map(el => {
-                    return <Link to={activeList === 'theater' ? `/movie_details/${el.id}` : '/tv_details'}>
-                        <Card className="popular" onClick={() => hashId(el.id, el.getPoster_path())}>
-                            <CardMedia
-                                className="popular__item"
-                                component="img"
-                                height="225"
-                                image={el.getPoster_path()} />
-                            <CardContent className="content">
-                                <Typography>
-                                    {el.original_title}
-                                </Typography>
-                                <Typography>
-                                    {el.getRelease_date()}
-                                </Typography>
-                                <div
-                                    className="popular__rating"
-                                    style={{ borderColor: `${paintingRating(el.getVote_average())}` }}
-                                >
-                                    {`${el.getVote_average() * 10}`}
-                                    <span>%</span>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                })
-            }
+        <SmoothList>
+            <div style={styles.wrapper}>
+                {
+                    props.popularMovie.map(el => {
+                        return <Link to={activeList === 'theater' ? `/movie_details/${el.id}` : '/tv_details'}>
+                            <Card style={styles.popular} onClick={() => hashId(el.id, el.getPoster_path())}>
+                                <CardMedia
+                                    component="img"
+                                    height="225"
+                                    image={el.getPoster_path()} />
+                                <CardContent className="content">
+                                    <Typography>
+                                        {el.original_title}
+                                    </Typography>
+                                    <Typography>
+                                        {el.getRelease_date()}
+                                    </Typography>
+                                    <div style={styles.rating}>
+                                        {`${el.getVote_average() * 10}`}
+                                        <span style={styles.text}>%</span>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    })
+                }
+            </div>
         </SmoothList>
     )
 }

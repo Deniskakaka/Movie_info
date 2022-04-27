@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
+import Radium from 'radium';
 
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
@@ -16,11 +17,21 @@ type Props = {
 }
 
 const TrailerPreview = (props: Props) => {
+    const styles: Radium.StyleRules = {
+        trailer_preview: {
+            position: 'relative',
+            margin: '0 10px'
+        },
+        icon_play: {
+            position: 'absolute',
+            top: '50%',
+            transform: 'translate(80%, -50%)'
+        }
+    }
     const [active, setActive] = useState(false);
     const dispatch = useDispatch();
 
     const mouseOver = () => {
-        console.log(props.trailer.poster)
         setActive(true);
         props.activeTrailerList === 'theater'
             ? dispatch(actionBackgroundTrailer(props.trailer.poster))
@@ -29,7 +40,7 @@ const TrailerPreview = (props: Props) => {
 
     return <Card
         sx={{ maxWidth: 350, minWidth: 350 }}
-        className="trailer_preview"
+        style={styles.trailer_preview}
         onMouseOver={() => mouseOver()}
         onMouseOut={() => setActive(false)}
         onClick={() =>
@@ -43,7 +54,7 @@ const TrailerPreview = (props: Props) => {
             image={props.trailer.poster} />
         <PlayArrowIcon
             color={active ? "primary" : "action"}
-            className="icon_play"
+            style={styles.icon_play}
             sx={{ fontSize: 130 }} />
     </Card>
 }

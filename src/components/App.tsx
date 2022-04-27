@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { Route, Routes } from 'react-router-dom';
 import store from "Root/store";
-import "Root/style/main.scss";
 
 import Header from "Root/components/header/Header";
 import StartPage from "Root/components/content/startPage/StartPage";
-import MovieDetails from "Components/content/details/MovieDetails";
+import MovieDetails from "Components/content/details/Details";
 
 
 class App extends Component {
