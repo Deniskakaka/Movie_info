@@ -12,7 +12,8 @@ import { ICast } from "Root/interfaces/interfaceClassMovie/interfaceCast";
 import Acauntancy from "./components/Acauntancy";
 import Media from "./components/Media";
 import Radium from 'radium';
-import { switchActiveMenu } from "Root/redux/rootRedux/action";
+import { activeLoaderMovie, disableLoaderMovie, switchActiveMenu } from "Root/redux/rootRedux/action";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Details = () => {
     const styles: Radium.StyleRules = {
@@ -22,6 +23,13 @@ const Details = () => {
             width: '100%',
             maxWidth: '1350px',
             margin: '0 auto'
+        },
+        loader: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100vw',
+            height: '100vh'
         }
     }
     const [poster, setPoster] = useState<string>('');
@@ -29,16 +37,19 @@ const Details = () => {
     const detailsMovie = useSelector((state: IglobalReduser) => state.movieReduser.detailsMovie);
     const detailsTV = useSelector((state: IglobalReduser) => state.tvReduser.detailsTV);
     const cast = useSelector((state: IglobalReduser) => state.movieReduser.cast);
+    const loader = useSelector((state: IglobalReduser) => state.rootReduser.movieLoader);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (location.pathname.includes('movie_details') && detailsMovie.id === 0)
+        if (location.pathname.includes('movie_details') && detailsMovie.id === 0) {
+            dispatch(activeLoaderMovie());
             actionRequestDetails(
                 dispatch,
                 actionRequestDetailsMovie,
                 detailsMovie);
-        setPoster(localStorage.getItem('poster'));
-        dispatch(switchActiveMenu('Movie'));
+            setPoster(localStorage.getItem('poster'));
+            dispatch(switchActiveMenu('Movie'));
+        }
     }, [detailsMovie]);
 
     useEffect(() => {
@@ -47,10 +58,13 @@ const Details = () => {
             actionRequestDetailsTV,
             detailsTV
         );
-    } , [])
+    }, []);
 
     useEffect(() => {
-        detailsMovie.id !== 0 && dispatch(actionRequestCastMovie(detailsMovie.id))
+        if (detailsMovie.id !== 0) {
+            setTimeout(() => dispatch(disableLoaderMovie()), 1300);
+            dispatch(actionRequestCastMovie(detailsMovie.id));
+        }
     }, [detailsMovie]);
 
     const renderDetailsHeader = useMemo(() => {
@@ -66,17 +80,24 @@ const Details = () => {
     }, [detailsMovie]);
 
     const renderMedia = useMemo(() => {
-        return <Media id={detailsMovie.id} nameMovie={detailsMovie.title} nameTrailerList={'theater'}/>
+        return <Media id={detailsMovie.id} nameMovie={detailsMovie.title} nameTrailerList={'theater'} />
     }, [detailsMovie]);
 
     return (
         <div>
-            {renderDetailsHeader}
-            <div style={styles.further_information}>
-                {renderListCast}
-                {renderAcauntancy}
-            </div>
-            {renderMedia}
+            {
+                loader ? <div style={styles.loader}>
+                    <CircularProgress />
+                </div>
+                    : <>
+                        {renderDetailsHeader}
+                        <div style={styles.further_information}>
+                            {renderListCast}
+                            {renderAcauntancy}
+                        </div>
+                        {renderMedia}
+                    </>
+            }
         </div>
     )
 };

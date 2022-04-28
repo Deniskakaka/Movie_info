@@ -1,5 +1,6 @@
 import IRootReduserState from "Interfaces/interfaceRedux/state/rootState/IRootReduserState";
 import { IActionSwitchMenu } from "Interfaces/interfaceRedux/IactionRootReduser";
+import { rootReduserName } from "Root/utils/other";
 
 const initialState: IRootReduserState = {
     listMenu: [
@@ -20,27 +21,53 @@ const initialState: IRootReduserState = {
     ],
     activeMenu: '',
     activeListStartPage: 'theater',
-    activeListStartTrailer: 'theater'
+    activeListStartTrailer: 'theater',
+    contentLoader: false,
+    movieLoader: false
 }
 
 const rootReduser = (state = initialState, action: IActionSwitchMenu) => {
     switch (action.type) {
-        case 'SWITCH_ACTIVE_MENU': {
+        case rootReduserName.switchActiveMenu: {
             return {
                 ...state,
                 activeMenu: action.payload
             }
         }
-        case 'SWITCH_LIST': {
+        case rootReduserName.switchList: {
             return {
                 ...state,
                 activeListStartPage: action.payload
             }
         }
-        case 'SWITCH_LIST_TRAILER': {
+        case rootReduserName.switchListTrailer: {
             return {
                 ...state,
                 activeListStartTrailer: action.payload
+            }
+        }
+        case rootReduserName.activeLoaderContent: {
+            return {
+                ...state,
+                contentLoader: true
+            }
+        }
+        case rootReduserName.disableLoaderContent: {
+            return {
+                ...state,
+                contentLoader: false
+            }
+        }
+        case rootReduserName.activeMovieLoader: {
+            return {
+                ...state,
+                movieLoader: true
+            }
+        }
+        case rootReduserName.disableMovieLoader: {
+            return {
+                ...state,
+                movieLoader: false
             }
         }
         default:
