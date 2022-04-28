@@ -7,6 +7,8 @@ interface IRootReduserState  {
     activeMenu: string,
     activeListStartPage: string,
     activeListStartTrailer: string,
+    contentLoader: boolean,
+    movieLoader: boolean,
 };
 
 export default IRootReduserState;

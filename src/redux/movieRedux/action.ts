@@ -95,14 +95,18 @@ export const actionRequestMovie = (
                 el.release_date,
                 el.vote_average,
             ));
-            if (name === MovieEnum.popular && requestPopularList)
-                return dispatch(actionMovieList(result, movieActionName.requestPopular));
-            if (name === MovieEnum.now_play && requestNowPlayList)
-                return dispatch(actionMovieList(result, movieActionName.requestPlayNow));
-            if (name === MovieEnum.upcoming && requestUpcomingList)
-                return dispatch(actionMovieList(result, movieActionName.requestUpcoming));
-            if (name === MovieEnum.top_rated && requestTopRatedList)
-                return dispatch(actionMovieList(result, movieActionName.requestTopRated));
+            if (name === MovieEnum.popular && requestPopularList) {
+                dispatch(actionMovieList(result, movieActionName.requestPopular));
+            }
+            if (name === MovieEnum.now_play && requestNowPlayList) {
+                dispatch(actionMovieList(result, movieActionName.requestPlayNow));
+            }
+            if (name === MovieEnum.upcoming && requestUpcomingList) {
+                dispatch(actionMovieList(result, movieActionName.requestUpcoming));
+            }
+            if (name === MovieEnum.top_rated && requestTopRatedList) {
+                dispatch(actionMovieList(result, movieActionName.requestTopRated));
+            }
         });
     }
 };

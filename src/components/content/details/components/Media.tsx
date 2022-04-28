@@ -105,7 +105,7 @@ const Media = (props: Props) => {
                     });
                     setTrailerList(result);
                 });
-    }, [poster, props])
+    }, [poster])
 
     const onChange = (name: string) => setActiveList(name);
 

@@ -11,6 +11,51 @@ import { IglobalReduser } from "Root/interfaces/globalInterfaces";
 import { Link } from "react-router-dom";
 import Radium from 'radium';
 
+type persentsProps = {
+    persents: number
+}
+
+const PercentsPopulation = (props: persentsProps) => {
+
+    const paintingRating = (rating: number) => {
+        if (rating >= 7.5) return '#05f03c';
+        if (rating < 7.5 && rating > 6) return '#dcf005';
+        if (rating <= 6 && rating > 4) return '#f07e05';
+        if (rating <= 4) return '#f00505';
+    };
+
+    const styles: Radium.StyleRules = {
+        rating: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            top: '5px',
+            right: '5px',
+            border: `2px solid ${paintingRating(props.persents)}`,
+            color: '#fff',
+            backgroundColor: '#081c22',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            fontFamily: 'Consensus',
+            fontSize: '13px',
+            fontWeight: '900',
+        },
+        text: {
+            fontSize: '8px',
+            marginBottom: '7px',
+        }
+    }
+
+    return (
+        <div style={styles.rating}>
+            {`${props.persents * 10}`}
+            <span style={styles.text}>%</span>
+        </div>
+    )
+}
+
 type Props = {
     popularMovie: IMovie[] | ITV[],
     action: any
@@ -32,43 +77,15 @@ const ListStartPopular = (props: Props) => {
             margin: '0 10px',
             transition: 'all 0.3s ease',
         },
-        rating: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
-            top: '5px',
-            right: '5px',
-            border: '4px solid #fff',
-            color: '#fff',
-            backgroundColor: '#222',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            fontFamily: 'Consensus',
-            fontSize: '13px'
-        },
-        text: {
-            fontSize: '8px',
-            marginBottom: '7px'
-        }
     }
     const activeList = useSelector((state: IglobalReduser) => state.rootReduser.activeListStartPage);
     const dispatch = useDispatch();
-
-    const paintingRating = (rating: number) => {
-        if (rating >= 7.5) return '#05f03c';
-        if (rating < 7.5 && rating > 6) return '#dcf005';
-        if (rating <= 6 && rating > 4) return '#f07e05';
-        if (rating <= 4) return '#f00505';
-    };
 
     const hashId = (id: number, poster: string) => {
         dispatch(props.action(id));
         localStorage.setItem('id', `${id}`);
         localStorage.setItem('poster', poster);
     };
-
 
     return (
         <SmoothList>
@@ -88,10 +105,9 @@ const ListStartPopular = (props: Props) => {
                                     <Typography>
                                         {el.getRelease_date()}
                                     </Typography>
-                                    <div style={styles.rating}>
-                                        {`${el.getVote_average() * 10}`}
-                                        <span style={styles.text}>%</span>
-                                    </div>
+                                    {
+                                        <PercentsPopulation persents={el.getVote_average()}/>
+                                    }
                                 </CardContent>
                             </Card>
                         </Link>

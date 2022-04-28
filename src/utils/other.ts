@@ -3,13 +3,23 @@ export enum MovieEnum {
     now_play,
     upcoming,
     top_rated
-}
+};
 
 export enum TVEnum {
     popular,
     airing_today,
     on_the_air,
     top_rated
+};
+
+export const rootReduserName = {
+    switchActiveMenu: 'SWITCH_ACTIVE_MENU',
+    switchList: 'SWITCH_LIST',
+    switchListTrailer: 'SWITCH_LIST_TRAILER',
+    activeLoaderContent: 'ACTIVE_LOADER_CONTENT',
+    disableLoaderContent: 'DISABLE_LOADER_CONTENT',
+    activeMovieLoader: 'ACTIVE_LOADER_MOVIE',
+    disableMovieLoader: 'DISABLE_LOADER_MOVIE',
 }
 
 export const movieActionName = {
@@ -22,7 +32,7 @@ export const movieActionName = {
     setKeyTrailer: 'SWITCH_KEY_TRAILER',
     requestDetailsMovie: 'DETAILS_MOVIE',
     requestCastMovie: 'CAST_MOVIE',
-}
+};
 
 export const tvActionName = {
     requestPopular: 'REQUEST_LIST_POPULAR_TV',
@@ -33,4 +43,4 @@ export const tvActionName = {
     setKeyTrailer: 'SWITCH_KEY_TRAILER_TV',
     requestDetailsTV: 'REQUEST_DETAILS_TV',
     setBackgroundTrailer: 'BACKGROUND_TRAILER_TV',
-}
+};
