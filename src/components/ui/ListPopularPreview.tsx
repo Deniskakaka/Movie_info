@@ -92,7 +92,7 @@ const ListStartPopular = (props: Props) => {
             <div style={styles.wrapper}>
                 {
                     props.popularMovie.map(el => {
-                        return <Link to={activeList === 'theater' ? `/movie_details/${el.id}` : '/tv_details'}>
+                        return <Link to={activeList === 'theater' ? `/movie_details/${el.id}` : `/tv_details/${el.id}`}>
                             <Card style={styles.popular} onClick={() => hashId(el.id, el.getPoster_path())}>
                                 <CardMedia
                                     component="img"
@@ -106,7 +106,7 @@ const ListStartPopular = (props: Props) => {
                                         {el.getRelease_date()}
                                     </Typography>
                                     {
-                                        <PercentsPopulation persents={el.getVote_average()}/>
+                                        <PercentsPopulation persents={el.getVote_average()} />
                                     }
                                 </CardContent>
                             </Card>

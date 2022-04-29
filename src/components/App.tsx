@@ -5,7 +5,7 @@ import store from "Root/store";
 
 import Header from "Root/components/header/Header";
 import StartPage from "Root/components/content/startPage/StartPage";
-import MovieDetails from "Components/content/details/Details";
+import Details from "Components/content/details/Details";
 
 
 class App extends Component {
@@ -15,8 +15,8 @@ class App extends Component {
                 <Header />
                 <Routes>
                     <Route path="/" element={<StartPage />} />
-                    <Route path="/movie_details/:id" element={<MovieDetails />} />
-                    <Route path="/tv_details" element={<div>comming soon</div>} />
+                    <Route path="/movie_details/:id" element={<Details />} />
+                    <Route path="/tv_details/:id" element={<Details/>} />
                 </Routes>
             </Provider>
         )

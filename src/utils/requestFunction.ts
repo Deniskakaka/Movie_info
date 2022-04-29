@@ -27,7 +27,7 @@ export const requestDetailsMovie = (id: number) => {
   return axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`);
 }
 
-export const requestCastMovie = (id:number) => {
+export const requestCastMovie = (id: number) => {
   return axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${key}&language=en-US`);
 }
 
@@ -54,12 +54,24 @@ export const tvOnTheAirRequest = (count: number) => {
 
 export const tvTopRatedRequest = (count: number) => {
   return axios.get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${key}&language=en-US&page=${count}`);
-}
+};
 
 export const requestTrailerTV = (id: number) => {
   return axios.get(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${key}&language=en-US`);
-}
+};
 
 export const requestDetailsTV = (id: number) => {
   return axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=${key}&language=en-US`);
+};
+
+export const requestCastTV = (id: number) => {
+  return axios.get(`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${key}&language=en-US`)
+};
+
+export const requestLinksTV = (id: number) => {
+  return axios.get(`https://api.themoviedb.org/3/tv/${id}/external_ids?api_key=${key}&language=en-US`)
+};
+
+export const requestImageTV = (id: number) => {
+  return axios.get(`https://api.themoviedb.org/3/tv/${id}/images?api_key=${key}`);
 }

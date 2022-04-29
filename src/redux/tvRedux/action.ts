@@ -4,9 +4,12 @@ import TV from 'Root/class/previewClasses/tv';
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { ITV, ITrailerTV, IDetailTV } from 'Root/interfaces/interfaceClassMovie/interfaceTV';
 import { ICreatedBy, INetworks, IProductionCompanyTV, ISeason } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
-import { requestDetailsTV } from 'Root/utils/requestFunction';
+import { requestCastTV, requestDetailsTV } from 'Root/utils/requestFunction';
 import { TVEnum, tvActionName } from "Root/utils/other";
 import { DetailsFabric } from "Root/class/fabricClass";
+import { ICast } from 'Root/interfaces/interfaceClassMovie/interfaceCast';
+import { ConstructionOutlined } from '@mui/icons-material';
+import { Cast } from 'Root/class/people/cast';
 
 //action details TV
 export const actionDetailsTV = (detils: IDetailTV) => {
@@ -62,7 +65,11 @@ export const actionRequestDetailsTV = (id: number): (dispatch: Dispatch<Action>)
                     el.overview,
                     el.poster_path,
                     el.season_number)),
-                res.data.vote_average
+                res.data.vote_average,
+                res.data.id,
+                res.data.original_language,
+                res.data.genres,
+                res.data.status
             )
             dispatch(actionDetailsTV(result));
         })
@@ -131,3 +138,36 @@ export const actionRequestTV = (
         })
     }
 };
+
+//cast TV
+
+const actionCastTV = (cast: ICast) => {
+    return {
+        type: tvActionName.requestCastTV,
+        payload: cast
+    }
+};
+
+export const actionRequestCastTV = (id: number) => {
+    return (dispatch: Dispatch<Action>): void => {
+        requestCastTV(id).then(res => {
+            const cast = res.data.cast.map((el: ICast) => {
+                return new Cast(
+                    el.id,
+                    el.known_for_department,
+                    el.name,
+                    el.profile_path,
+                    el.character)
+            });
+            const crew = res.data.crew.map((el: ICast) => {
+                return new Cast(
+                    el.id,
+                    el.known_for_department,
+                    el.name,
+                    el.profile_path,
+                    el.character)
+            });
+            dispatch(actionCastTV(cast.concat(crew)));
+        });
+    }
+}

@@ -6,8 +6,9 @@ import {
     IProductionCompanyTV,
     ISeason
 } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
+import { BasicMethodDetailsMovieAndTV } from "../basicMethods";
 
-export default class DetailTV implements IDetailTV {
+export default class DetailTV extends BasicMethodDetailsMovieAndTV implements IDetailTV {
     backdrop_path: string;
     created_by: ICreatedBy[];
     first_air_date: string;
@@ -26,6 +27,10 @@ export default class DetailTV implements IDetailTV {
     production_companies: IProductionCompanyTV[];
     seasons: ISeason[];
     vote_average: number;
+    id: number;
+    original_language: string;
+    genres: { id: number; name: string; }[];
+    status: string;
 
     constructor(
         backdrop_path: string,
@@ -46,7 +51,12 @@ export default class DetailTV implements IDetailTV {
         production_companies: IProductionCompanyTV[],
         seasons: ISeason[],
         vote_average: number,
+        id: number,
+        original_language: string,
+        genres: { id: number, name: string }[],
+        status: string
     ) {
+        super(backdrop_path, first_air_date, 0, episode_run_time.length * episode_run_time.reduce((acc, el) => acc + el, 0), 0),
         this.backdrop_path = backdrop_path,
             this.created_by = created_by,
             this.first_air_date = first_air_date,
@@ -64,7 +74,11 @@ export default class DetailTV implements IDetailTV {
             this.poster_path = poster_path,
             this.production_companies = production_companies,
             this.seasons = seasons,
-            this.vote_average = vote_average
+            this.vote_average = vote_average,
+            this.id = id,
+            this.original_language = original_language,
+            this.genres = genres,
+            this.status = status
     }
 
 }

@@ -1,3 +1,4 @@
+import { ICast } from "Root/interfaces/interfaceClassMovie/interfaceCast";
 import { ITV, ITrailerTV, IDetailTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
 
 export interface ITVStateReduser {
@@ -8,5 +9,6 @@ export interface ITVStateReduser {
     trailerTV: ITrailerTV[],
     trailerKey: string,
     detailsTV: IDetailTV,
-    backgroundTrailer: string
+    backgroundTrailer: string,
+    cast: ICast[]
 }
