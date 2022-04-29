@@ -97,7 +97,11 @@ export class DetailsFabric implements IfabricaDetails {
         poster_path: string, 
         production_companies: IProductionCompanyTV[], 
         seasons: ISeason[], 
-        vote_average: number): IDetailTV {
+        vote_average: number, 
+        id: number,
+        original_language: string,
+        genres:{ id: number, name: string }[],
+        status:string): IDetailTV {
         return new DetailTV(backdrop_path,
             created_by,
             first_air_date,
@@ -115,6 +119,10 @@ export class DetailsFabric implements IfabricaDetails {
             poster_path,
             production_companies,
             seasons,
-            vote_average)
+            vote_average,
+            id,
+            original_language, 
+            genres, 
+            status)
     }
 };

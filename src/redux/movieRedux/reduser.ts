@@ -1,6 +1,6 @@
 import { IMovieReduserState } from "Interfaces/interfaceRedux/state/movieState/IMovieReduserState";
 import { movieActionName } from "Root/utils/other";
-import { defaultValueDetailsMovie, defaultValueCastMovie } from "Root/utils/defaultValues";
+import { defaultValueDetailsMovie, defaultValueCast } from "Root/utils/defaultValues";
 
 const initialState: IMovieReduserState = {
     popular: [],
@@ -11,7 +11,7 @@ const initialState: IMovieReduserState = {
     backgroundTrailer: '',
     trailerKey: '',
     detailsMovie: defaultValueDetailsMovie,
-    cast: [defaultValueCastMovie],
+    cast: [defaultValueCast],
 };
 
 const movieReduser = (state = initialState, action: any) => {

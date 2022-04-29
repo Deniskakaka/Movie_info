@@ -1,4 +1,4 @@
-import { GlobalProperty, ICreatedBy, IlastEpisodTV, INetworks, IProductionCompanyTV, ISeason } from "Interfaces/interfaceGlobalObject/globalObjectsInterfaces";
+import { GlobalProperty, GlobalPropertyDetails, ICreatedBy, IlastEpisodTV, INetworks, IProductionCompanyTV, ISeason } from "Interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 import { ITrailerMovie } from "./interfaceMovie";
 
 export interface ITV extends GlobalProperty{
@@ -23,7 +23,7 @@ export interface ITrailerTV {
     poster: string
 }
 
-export interface IDetailTV {
+export interface IDetailTV extends GlobalPropertyDetails {
     backdrop_path: string,
     created_by: ICreatedBy[],
     first_air_date: string,
@@ -41,5 +41,9 @@ export interface IDetailTV {
     poster_path: string,
     production_companies: IProductionCompanyTV[],
     seasons: ISeason[],
-    vote_average: number
+    vote_average: number,
+    id: number,
+    original_language: string,
+    genres: { id: number, name: string }[],
+    status: string
 }

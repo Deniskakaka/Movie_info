@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import TrailerMovie from "Root/class/trailerClasses/trailerMovie";
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
-import { requestImagesMovie } from "Root/utils/requestFunction";
+import { requestImagesMovie, requestImageTV, requestTrailerTV } from "Root/utils/requestFunction";
 import { requestTrailerMovie } from "Root/utils/requestFunction";
 import Trailer from "../../trailers/Trailer";
 import TrailerPreview from "../../trailers/TrailersPreview";
 import Radium from 'radium';
+import TrailerTV from "Root/class/trailerClasses/trailerTV";
+import { ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
 
 type Props = {
     id: number,
@@ -75,7 +77,8 @@ const Media = (props: Props) => {
     const location = useLocation();
 
     useEffect(() => {
-        requestImagesMovie(parseInt(location.pathname.replace(/[^\d]/g, ''))).then(res => {
+        const requestImage = props.nameTrailerList === 'theater' ? requestImagesMovie : requestImageTV;
+        requestImage(parseInt(location.pathname.replace(/[^\d]/g, ''))).then(res => {
             const imagePoster: string[] = [];
             const imageBackdrop: string[] = [];
             res.data.posters.map((el: any) => {
@@ -87,14 +90,16 @@ const Media = (props: Props) => {
             setPoster(imagePoster);
             setBackdrop(imageBackdrop);
         });
-    }, []);
+    }, [props.nameTrailerList]);
 
     useEffect(() => {
+        const requestTrailers = props.nameTrailerList === 'theater' ? requestTrailerMovie : requestTrailerTV;
+        const trailer = props.nameTrailerList === 'theater' ? TrailerMovie : TrailerTV;
         poster.length > 0 && props.nameMovie
-            && requestTrailerMovie(parseInt(location.pathname.replace(/[^\d]/g, '')))
+            && requestTrailers(parseInt(location.pathname.replace(/[^\d]/g, '')))
                 .then((res: any) => {
-                    const result = res.data.results.map((el: ITrailerMovie, index: number) => {
-                        return new TrailerMovie(
+                    const result = res.data.results.map((el: ITrailerMovie | ITrailerTV, index: number) => {
+                        return new trailer(
                             el.name,
                             el.key,
                             el.published_at,

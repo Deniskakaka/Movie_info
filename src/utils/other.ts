@@ -43,4 +43,5 @@ export const tvActionName = {
     setKeyTrailer: 'SWITCH_KEY_TRAILER_TV',
     requestDetailsTV: 'REQUEST_DETAILS_TV',
     setBackgroundTrailer: 'BACKGROUND_TRAILER_TV',
+    requestCastTV: 'CAST_TV',
 };

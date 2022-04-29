@@ -58,6 +58,10 @@ export interface IfabricaDetails {
         poster_path: string,
         production_companies: IProductionCompanyTV[],
         seasons: ISeason[],
-        vote_average: number
+        vote_average: number,
+        id: number,
+        original_language: string,
+        genres: { id: number, name: string }[],
+        status: string
     ): IDetailTV,
 }

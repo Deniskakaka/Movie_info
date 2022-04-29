@@ -3,15 +3,18 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { IDetailMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
-import { requestLinksMovie } from "Root/utils/requestFunction";
+import { requestLinksMovie, requestLinksTV } from "Root/utils/requestFunction";
 import Radium from 'radium';
+import { IDetailTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
+import DetailsMovie from "Root/class/detailsClasses/detailsMovie";
+import DetailTV from "Root/class/detailsClasses/detailsTV";
 
 type Props = {
-    details: IDetailMovie,
+    details: IDetailMovie | IDetailTV,
 }
 
 const Acauntancy = (props: Props) => {
-    const styles:Radium.StyleRules = {
+    const styles: Radium.StyleRules = {
         acauntancy: {
             display: 'flex',
             flexDirection: 'column',
@@ -43,11 +46,14 @@ const Acauntancy = (props: Props) => {
     const [instagram, setInstagram] = useState('');
 
     useEffect(() => {
-        props.details.id !== 0 && requestLinksMovie(props.details.id).then(res => {
-            setFacebook(res.data.facebook_id);
-            setTwitter(res.data.twitter_id);
-            setInstagram(res.data.instagram_id);
-        });
+        const request = props.details instanceof DetailsMovie ? requestLinksMovie : requestLinksTV
+        if (props.details.id !== 0) {
+            request(props.details.id).then(res => {
+                setFacebook(res.data.facebook_id);
+                setTwitter(res.data.twitter_id);
+                setInstagram(res.data.instagram_id);
+            });
+        }
     }, [props.details]);
 
     return (
@@ -83,4 +89,4 @@ const Acauntancy = (props: Props) => {
     )
 };
 
-export default Radium(Acauntancy) ;
+export default Radium(Acauntancy);
