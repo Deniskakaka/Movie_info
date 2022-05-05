@@ -4,5 +4,6 @@ export interface ICast {
     name: string,
     profile_path: string,
     character: string,
-    getBackdrop_path(): string
+    getBackdrop_path(): string,
+    roles?: {character: string, episode_count: number, credit_id: string}[]
 };

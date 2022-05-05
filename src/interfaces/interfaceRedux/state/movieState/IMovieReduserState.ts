@@ -1,5 +1,5 @@
 import { ICast } from "Root/interfaces/interfaceClassMovie/interfaceCast";
-import { IDetailMovie, IMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
+import { IDetailMovie, IMovie, IRecommendationMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 
 export interface IMovieReduserState {
     popular: IMovie[],
@@ -10,5 +10,6 @@ export interface IMovieReduserState {
     detailsMovie: IDetailMovie,
     backgroundTrailer: string,
     trailerKey: string,
-    cast: ICast[]
+    cast: ICast[],
+    recommendationMovies: IRecommendationMovie[]
 };

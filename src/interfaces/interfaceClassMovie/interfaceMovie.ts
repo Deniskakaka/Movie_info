@@ -27,7 +27,7 @@ export interface IDetailMovie extends GlobalPropertyDetails {
     overview: string,
     production_companies: IProductionCompany[],
     release_date: string,
-    runtime:  number,
+    runtime: number,
     spoken_languages: { name: string }[],
     title: string,
     vote_average: number,
@@ -36,4 +36,18 @@ export interface IDetailMovie extends GlobalPropertyDetails {
     original_language: string,
     genres: { id: number, name: string }[],
     status: string
+};
+
+export interface IRecommendationMovie {
+    title: string,
+    release_date: string,
+    vote_average: number,
+    id: number,
+    poster_path: string,
+
+    getBackdrop_path(): string,
+
+    getRelease_date(): string,
+
+    getVote_average(): number
 };

@@ -1,20 +1,20 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { IglobalReduser } from "Root/interfaces/globalInterfaces";
-import { Rating } from 'semantic-ui-react';
-import { actionRequestCastMovie, actionRequestDetailsMovie } from "Redux/movieRedux/action";
-import { actionRequestCastTV, actionRequestDetailsTV } from "Redux/tvRedux/action";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import { actionRecommendateMovies, actionRequestCastMovie, actionRequestDetailsMovie, actionRequestListRecommendateMovies } from "Redux/movieRedux/action";
+import { actionRecommendationTV, actionRequestCastTV, actionRequestDetailsTV, actionRequestRecommendationTV } from "Redux/tvRedux/action";
 import { actionRequestDetails } from "Root/utils/componentsFunctions";
 import DetailsHead from "./components/DetailsHead";
 import ListCast from "./components/ListCast";
 import { ICast } from "Root/interfaces/interfaceClassMovie/interfaceCast";
 import Acauntancy from "./components/Acauntancy";
 import Media from "./components/Media";
+import Recommendate from "./components/Recommendate";
 import Radium from 'radium';
-import { activeLoaderMovie, disableLoaderMovie, switchActiveMenu } from "Root/redux/rootRedux/action";
-import CircularProgress from '@mui/material/CircularProgress';
-import DetailsMovie from "Root/class/detailsClasses/detailsMovie";
+import { activeLoaderContent, switchActiveMenu, disableLoaderContent } from "Root/redux/rootRedux/action";
 
 const Details = () => {
     const styles: Radium.StyleRules = {
@@ -38,35 +38,42 @@ const Details = () => {
     const detailsTV = useSelector((state: IglobalReduser) => state.tvReduser.detailsTV);
     const castMovie = useSelector((state: IglobalReduser) => state.movieReduser.cast);
     const castTV = useSelector((state: IglobalReduser) => state.tvReduser.cast);
-    const loader = useSelector((state: IglobalReduser) => state.rootReduser.movieLoader);
+    const recommendateMovies = useSelector((state: IglobalReduser) => state.movieReduser.recommendationMovies);
+    const recommendateTV = useSelector((state: IglobalReduser) => state.tvReduser.recommendatesTV);
+    const loader = useSelector((state: IglobalReduser) => state.rootReduser.contentLoader);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (location.pathname.includes('movie_details') && detailsMovie.id === 0) {
-            dispatch(activeLoaderMovie());
+            dispatch(activeLoaderContent());
             actionRequestDetails(
                 dispatch,
-                actionRequestDetailsMovie,
-                detailsMovie);
+                actionRequestDetailsMovie);
+            setTimeout(() => dispatch(disableLoaderContent()), 1300);
             dispatch(switchActiveMenu('Movie'));
         }
         if (location.pathname.includes('tv_details') && detailsTV.id === 0) {
+            dispatch(activeLoaderContent());
             actionRequestDetails(
                 dispatch,
-                actionRequestDetailsTV,
-                detailsTV
-            );
+                actionRequestDetailsTV);
+            setTimeout(() => dispatch(disableLoaderContent()), 1300);
         }
     }, [detailsMovie, detailsTV]);
 
 
     useEffect(() => {
         if (detailsMovie.id !== 0) {
-            setTimeout(() => dispatch(disableLoaderMovie()), 1300);
-            dispatch(actionRequestCastMovie(detailsMovie.id));
+            dispatch(actionRequestCastMovie(+localStorage.getItem('id')));
+            dispatch(actionRequestListRecommendateMovies(detailsMovie.id, 1));
+            dispatch(actionRecommendationTV([]));
+            setTimeout(() => dispatch(disableLoaderContent()), 1300);
         }
         if (detailsTV.id !== 0) {
-            dispatch(actionRequestCastTV(detailsTV.id));
+            dispatch(actionRequestCastTV(+localStorage.getItem('id')));
+            dispatch(actionRequestRecommendationTV(detailsTV.id, 1));
+            dispatch(actionRecommendateMovies([]));
+            setTimeout(() => dispatch(disableLoaderContent()), 1300);
         }
     }, [detailsMovie, detailsTV]);
 
@@ -90,16 +97,27 @@ const Details = () => {
         if (detailsTV.id !== 0) return <Media id={detailsTV.id} nameMovie={detailsTV.name} nameTrailerList={'TV'} />
     }, [detailsMovie, detailsTV]);
 
+    const renderRecommendate = useMemo(() => {
+        if (recommendateMovies.length > 0) return <Recommendate list={recommendateMovies} />
+        if (recommendateTV.length > 0) return <Recommendate list={recommendateTV} />
+    }, [recommendateMovies, recommendateTV]);
+
     return (
         <div>
-            {renderDetailsHeader}
-            <div style={styles.further_information}>
-                {renderListCast}
-                {renderAcauntancy}
-            </div>
-            {renderMedia}
+            {
+                loader ? <Box style={styles.loader}><CircularProgress /></Box> : <div>
+                    {renderDetailsHeader}
+                    <div style={styles.further_information}>
+                        {renderListCast}
+                        {renderAcauntancy}
+                    </div>
+                    {renderMedia}
+                    {renderRecommendate}
+                </div>
+            }
         </div>
     )
 };
 
 export default Details;
+

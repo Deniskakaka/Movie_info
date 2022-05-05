@@ -1,4 +1,5 @@
 import { IMovie } from "Interfaces/interfaceClassMovie/interfaceMovie";
+import { IMenu, IMovieMenu } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 import { BasicMethodsMovieAndTV } from "../basicMethods";
 
 export class Movie extends BasicMethodsMovieAndTV implements IMovie {
@@ -29,5 +30,27 @@ export class Movie extends BasicMethodsMovieAndTV implements IMovie {
             this.poster_path = poster_path,
             this.release_date = release_date,
             this.vote_average = vote_average
+    }
+};
+
+export class Menu implements IMenu {
+    key: string;
+    name: string;
+    
+    constructor(key: string, name: string) {
+        this.key = key,
+        this.name = name
+    }
+}
+
+export class MovieMenu implements IMovieMenu {
+    key: string;
+    name: string;
+    image: string;
+
+    constructor( key: string, name: string, image: string) {
+        this.key = key,
+        this.name = name,
+        this.image = image
     }
 }

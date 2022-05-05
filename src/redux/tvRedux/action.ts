@@ -3,10 +3,10 @@ import DetailsTV, { CreatedBy, LastEpisode, Network, ProdationCompanyTV, Season 
 import TV from 'Root/class/previewClasses/tv';
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { ITV, ITrailerTV, IDetailTV } from 'Root/interfaces/interfaceClassMovie/interfaceTV';
-import { ICreatedBy, INetworks, IProductionCompanyTV, ISeason } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
-import { requestCastTV, requestDetailsTV } from 'Root/utils/requestFunction';
-import { TVEnum, tvActionName } from "Root/utils/other";
-import { DetailsFabric } from "Root/class/fabricClass";
+import { ICreatedBy, INetworks, IProductionCompanyTV, IRecommendationTV, ISeason } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
+import { requestCastTV, requestDetailsTV, requestRecommendateTV } from 'Root/utils/requestFunction';
+import { TVEnum, tvActionName, MovieEnum } from "Root/utils/other";
+import { DetailsFabric, FabricaRecommendates } from "Root/class/fabricClass";
 import { ICast } from 'Root/interfaces/interfaceClassMovie/interfaceCast';
 import { ConstructionOutlined } from '@mui/icons-material';
 import { Cast } from 'Root/class/people/cast';
@@ -110,7 +110,7 @@ const actionTVList = (listTV: ITV, type: string) => {
 export const actionRequestTV = (
     count: number,
     requestFunc: (count: number) => Promise<any>,
-    name: TVEnum) => {
+    name: MovieEnum | TVEnum) => {
     return (dispatch: Dispatch<Action>, getState: () => IglobalReduser): void => {
         const requestPopularList = getState().tvReduser.popular.length !== count * 20;
         const requestAiringTodayList = getState().tvReduser.airing_today.length !== count * 20;
@@ -127,7 +127,7 @@ export const actionRequestTV = (
                 el.origin_country,
                 el.original_language,
                 el.name));
-            if (name === TVEnum.popular && requestPopularList) 
+            if (name === TVEnum.popular && requestPopularList)
                 return dispatch(actionTVList(result, tvActionName.requestPopular));
             if (name === TVEnum.airing_today && requestAiringTodayList)
                 return dispatch(actionTVList(result, tvActionName.requestAiringTodayTV));
@@ -157,7 +157,8 @@ export const actionRequestCastTV = (id: number) => {
                     el.known_for_department,
                     el.name,
                     el.profile_path,
-                    el.character)
+                    el.character,
+                    el.roles)
             });
             const crew = res.data.crew.map((el: ICast) => {
                 return new Cast(
@@ -168,6 +169,30 @@ export const actionRequestCastTV = (id: number) => {
                     el.character)
             });
             dispatch(actionCastTV(cast.concat(crew)));
+        });
+    }
+};
+
+//recommendation TV
+export const actionRecommendationTV = (recommendation: IRecommendationTV[]) => {
+    return {
+        type: tvActionName.requestRecommendateTV,
+        payload: recommendation
+    }
+};
+
+export const actionRequestRecommendationTV = (id: number, count: number) => {
+    return (dispatch: Dispatch<Action>): void => {
+        if (count === 0) dispatch(actionRecommendationTV([]));
+        else requestRecommendateTV(id, count).then(res => {
+            const result = res.data.results.map((el: any) => new FabricaRecommendates()
+                .returnRecommendateTV(
+                    el.name,
+                    el.first_air_date,
+                    el.vote_average,
+                    el.id,
+                    el.backdrop_path));
+            dispatch(actionRecommendationTV(result));
         });
     }
 }

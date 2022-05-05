@@ -21,7 +21,7 @@ const ListCast = (props: Props) => {
         item: {
             height: '350px',
             margin: '10px',
-            marginLeft: '0'
+            marginLeft: '0',
         }
     }
 
@@ -42,6 +42,10 @@ const ListCast = (props: Props) => {
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 {el.character}
+                            </Typography>
+                            <Typography>
+                                {el.roles !== undefined
+                                    && `${el.roles.reduce((acc: number, el) => acc + el.episode_count, 0)} episodes`}
                             </Typography>
                         </CardContent>
                     </Card>

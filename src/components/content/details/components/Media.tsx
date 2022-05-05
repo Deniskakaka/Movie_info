@@ -90,7 +90,7 @@ const Media = (props: Props) => {
             setPoster(imagePoster);
             setBackdrop(imageBackdrop);
         });
-    }, [props.nameTrailerList]);
+    }, [props.nameTrailerList, props.id]);
 
     useEffect(() => {
         const requestTrailers = props.nameTrailerList === 'theater' ? requestTrailerMovie : requestTrailerTV;

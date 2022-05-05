@@ -32,6 +32,7 @@ export const movieActionName = {
     setKeyTrailer: 'SWITCH_KEY_TRAILER',
     requestDetailsMovie: 'DETAILS_MOVIE',
     requestCastMovie: 'CAST_MOVIE',
+    requestRecommendateMovies: 'REQUEST_LIST_RECOMMENDATED_MOVIE'
 };
 
 export const tvActionName = {
@@ -44,4 +45,5 @@ export const tvActionName = {
     requestDetailsTV: 'REQUEST_DETAILS_TV',
     setBackgroundTrailer: 'BACKGROUND_TRAILER_TV',
     requestCastTV: 'CAST_TV',
+    requestRecommendateTV: 'REQUEST_LIST_RECOMMENDATED_TV'
 };

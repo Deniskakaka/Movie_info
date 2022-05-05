@@ -1,5 +1,6 @@
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { ITV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
+import { ITVMenu } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 import { BasicMethodsMovieAndTV } from "../basicMethods";
 
 class TV extends BasicMethodsMovieAndTV implements ITV {
@@ -36,3 +37,15 @@ class TV extends BasicMethodsMovieAndTV implements ITV {
 };
 
 export default TV;
+
+export class MenuTV implements ITVMenu {
+    key: string;
+    name: string;
+    image: string;
+
+    constructor(key: string, name: string, image: string) {
+        this.key = key,
+        this.name = name,
+        this.image = image
+    }
+}
