@@ -4,6 +4,7 @@ import {
     IlastEpisodTV,
     INetworks,
     IProductionCompanyTV,
+    IRecommendationTV,
     ISeason
 } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 import { BasicMethodDetailsMovieAndTV } from "../basicMethods";
@@ -191,4 +192,28 @@ export class Season implements ISeason {
             this.season_number = season_number
     }
 
+};
+
+export class RecommendationTV implements IRecommendationTV {
+    title: string;
+    release_date: string;
+    vote_average: number;
+    id: number;
+    poster_path: string;
+    constructor(
+        title: string,
+        release_date: string,
+        vote_average: number,
+        id: number,
+        poster_path: string
+    ) {
+        this.title = title,
+        this.release_date = release_date,
+        this.vote_average = vote_average,
+        this.id = id,
+        this.poster_path = poster_path
+    }
+    getBackdrop_path = () => `https://image.tmdb.org/t/p/original/${this.poster_path}`;
+    getRelease_date = () => this.release_date.split('-').reverse().join('/');
+    getVote_average = () => this.vote_average;
 }

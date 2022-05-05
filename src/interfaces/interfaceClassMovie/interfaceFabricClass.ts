@@ -1,5 +1,5 @@
-import { ICreatedBy, IlastEpisodTV, INetworks, IProductionCompany, IProductionCompanyTV, ISeason } from "../interfaceGlobalObject/globalObjectsInterfaces";
-import { IDetailMovie, ITrailerMovie } from "./interfaceMovie";
+import { ICreatedBy, IlastEpisodTV, INetworks, IProductionCompany, IProductionCompanyTV, IRecommendationTV, ISeason } from "../interfaceGlobalObject/globalObjectsInterfaces";
+import { IDetailMovie, IRecommendationMovie, ITrailerMovie } from "./interfaceMovie";
 import { IDetailTV, ITrailerTV } from "./interfaceTV";
 
 export interface IfabricTrailer {
@@ -64,4 +64,21 @@ export interface IfabricaDetails {
         genres: { id: number, name: string }[],
         status: string
     ): IDetailTV,
+};
+
+export interface IFabricRecommendate {
+    returnRecommendatesMovie(
+        title: string,
+        release_date: string,
+        vote_average: number,
+        id: number,
+        poster_path: string,
+    ): IRecommendationMovie,
+    returnRecommendateTV(
+        title: string,
+        release_date: string,
+        vote_average: number,
+        id: number,
+        poster_path: string,
+    ): IRecommendationTV
 }

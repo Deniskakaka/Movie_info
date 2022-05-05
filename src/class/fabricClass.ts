@@ -1,9 +1,9 @@
-import { IfabricaDetails, IfabricTrailer } from "Root/interfaces/interfaceClassMovie/interfaceFabricClass";
-import { IDetailMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
+import { IfabricaDetails, IFabricRecommendate, IfabricTrailer } from "Root/interfaces/interfaceClassMovie/interfaceFabricClass";
+import { IDetailMovie, IRecommendationMovie, ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { IDetailTV, ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
-import { IProductionCompany, ICreatedBy, IlastEpisodTV, INetworks, IProductionCompanyTV, ISeason } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
-import DetailsMovie from "./detailsClasses/detailsMovie";
-import DetailTV from "./detailsClasses/detailsTV";
+import { IProductionCompany, ICreatedBy, IlastEpisodTV, INetworks, IProductionCompanyTV, ISeason, IRecommendationTV } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
+import DetailsMovie, { RecommendationMovie } from "./detailsClasses/detailsMovie";
+import DetailTV, { RecommendationTV } from "./detailsClasses/detailsTV";
 import TrailerMovie from "./trailerClasses/trailerMovie";
 import TrailerTV from "./trailerClasses/trailerTV";
 
@@ -126,3 +126,22 @@ export class DetailsFabric implements IfabricaDetails {
             status)
     }
 };
+
+export class FabricaRecommendates implements IFabricRecommendate {
+    returnRecommendateTV(
+        title: string, 
+        release_date: string, 
+        vote_average: number, 
+        id: number, 
+        poster_path: string): IRecommendationTV {
+            return new RecommendationTV(title, release_date, vote_average, id, poster_path)
+    }
+    returnRecommendatesMovie(
+        title: string, 
+        release_date: string, 
+        vote_average: number, 
+        id: number, 
+        poster_path: string): IRecommendationMovie {
+          return  new RecommendationMovie(title, release_date, vote_average, id, poster_path);
+    }
+}

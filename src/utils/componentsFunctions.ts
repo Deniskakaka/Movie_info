@@ -47,7 +47,7 @@ export function createTrailerTV(
 export function actionRequestDetails(
     dispatch: Dispatch<any>,
     action: typeof actionRequestDetailsMovie | typeof actionRequestDetailsTV,
-    array: IDetailMovie | IDetailTV | {}) {
+    idRecommend?:number) {
     const id = +localStorage.getItem('id');
-    dispatch(action(id));
+    dispatch(action(!idRecommend ? id : idRecommend));
 };

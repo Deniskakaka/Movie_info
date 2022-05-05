@@ -1,5 +1,6 @@
 import { ICast } from "Root/interfaces/interfaceClassMovie/interfaceCast";
 import { ITV, ITrailerTV, IDetailTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
+import { IRecommendationTV } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 
 export interface ITVStateReduser {
     popular: ITV[],
@@ -10,5 +11,6 @@ export interface ITVStateReduser {
     trailerKey: string,
     detailsTV: IDetailTV,
     backgroundTrailer: string,
-    cast: ICast[]
+    cast: ICast[],
+    recommendatesTV: IRecommendationTV[]
 }

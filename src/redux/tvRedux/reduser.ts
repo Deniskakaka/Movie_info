@@ -11,7 +11,8 @@ const initialState: ITVStateReduser = {
     trailerKey: '',
     backgroundTrailer: '',
     detailsTV: defaultValueDetailsTV,
-    cast: [defaultValueCast]
+    cast: [defaultValueCast],
+    recommendatesTV: []
 };
 
 const tvReduser = (state = initialState, action: any) => {
@@ -68,6 +69,12 @@ const tvReduser = (state = initialState, action: any) => {
             return {
                 ...state,
                 cast: state.cast = action.payload
+            }
+        }
+        case tvActionName.requestRecommendateTV: {
+            return {
+                ...state,
+                recommendatesTV: state.recommendatesTV = action.payload
             }
         }
         default:

@@ -79,4 +79,18 @@ export interface GlobalPropertyDetails {
     getRevenue(type: string, currency: string): string;
     getRunTime(): string;
     getBudget(type: string, currency: string): string
-}
+};
+
+export interface IRecommendationTV {
+        title: string,
+        release_date: string,
+        vote_average: number,
+        id: number,
+        poster_path: string,
+    
+        getBackdrop_path(): string,
+    
+        getRelease_date(): string,
+    
+        getVote_average(): number
+};

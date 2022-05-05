@@ -20,8 +20,8 @@ const Acauntancy = (props: Props) => {
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
-            height: '250px',
             marginTop: '10px',
+            maxHeight: '320px'
         },
         acauntancy__links: {
             display: 'flex',
@@ -31,7 +31,8 @@ const Acauntancy = (props: Props) => {
         item: {
             display: 'flex',
             flexDirection: 'column',
-            fontSize: '16px'
+            fontSize: '16px',
+            margin: '5px 0'
         },
         title: {
             fontWeight: '700',
@@ -39,6 +40,11 @@ const Acauntancy = (props: Props) => {
         },
         data: {
             textTransform: 'uppercase'
+        },
+        logo_company: {
+            maxWidth: '130px',
+            width: '100%',
+            height: '30px'
         }
     };
     const [facebook, setFacebook] = useState('');
@@ -85,6 +91,14 @@ const Acauntancy = (props: Props) => {
                 <span style={styles.title}>Revenue</span>
                 <span style={styles.data}>{props.details.getRevenue('en-EN', 'USD')}</span>
             </div>
+            {props.details instanceof DetailTV && <div style={styles.item}>
+                <span style={styles.title}>Network</span>
+                {
+                    props.details.networks.map(el => <img
+                        style={styles.logo_company}
+                        src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} />)
+                }
+            </div>}
         </div>
     )
 };

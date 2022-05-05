@@ -1,12 +1,13 @@
 import { Dispatch, Action } from 'redux';
-import DetailsMovie, { ProductionCompanyMovie } from 'Root/class/detailsClasses/detailsMovie';
+import DetailsMovie, { RecommendationMovie } from 'Root/class/detailsClasses/detailsMovie';
+import ProductionCompany from "Root/class/companies/CompanyClass";
 import { Movie } from "Root/class/previewClasses/movie";
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
-import { IDetailMovie, IMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
+import { IDetailMovie, IMovie, IRecommendationMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
 import { IProductionCompany } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
-import { requestCastMovie, requestDetailsMovie } from 'Root/utils/requestFunction';
-import { MovieEnum, movieActionName } from "Root/utils/other";
-import { DetailsFabric } from "Root/class/fabricClass";
+import { requestCastMovie, requestDetailsMovie, requestRecommendateMovies } from 'Root/utils/requestFunction';
+import { MovieEnum, movieActionName, TVEnum } from "Root/utils/other";
+import { DetailsFabric, FabricaRecommendates } from "Root/class/fabricClass";
 import { ICast } from 'Root/interfaces/interfaceClassMovie/interfaceCast';
 import { Cast } from 'Root/class/people/cast';
 
@@ -49,7 +50,7 @@ export const actionRequestDetailsMovie = (id: number): (dispatch: Dispatch<Actio
                 res.data.id,
                 res.data.overview,
                 res.data.production_companies.map((el: IProductionCompany) =>
-                    new ProductionCompanyMovie(el.id, el.name, el.logo_path)),
+                    new ProductionCompany(el.id, el.name, el.logo_path)),
                 res.data.release_date,
                 res.data.runtime,
                 res.data.spoken_languages,
@@ -77,7 +78,7 @@ const actionMovieList = (listMovie: IMovie, type: string) => {
 export const actionRequestMovie = (
     count: number,
     requestFunc: (count: number) => Promise<any>,
-    name: MovieEnum) => {
+    name: MovieEnum | TVEnum) => {
     return (dispatch: Dispatch<Action>, getState: () => IglobalReduser): void => {
         const requestPopularList = getState().movieReduser.popular.length !== count * 20;
         const requestNowPlayList = getState().movieReduser.now_play.length !== count * 20;
@@ -143,3 +144,27 @@ export const actionRequestCastMovie = (id: number) => {
         })
     }
 }
+
+//recommendate movies
+export const actionRecommendateMovies = (recommendate: IRecommendationMovie[]) => {
+    return {
+        type: movieActionName.requestRecommendateMovies,
+        payload: recommendate
+    }
+};
+
+export const actionRequestListRecommendateMovies = (id: number, count: number) => {
+    return (dispatch: Dispatch<Action>): void => {
+        if (count === 0) dispatch(actionRecommendateMovies([]));
+        else requestRecommendateMovies(id, count).then(res => {
+            const result = res.data.results.map((el: any) => new FabricaRecommendates()
+                .returnRecommendatesMovie(
+                    el.title,
+                    el.release_date,
+                    el.vote_average,
+                    el.id,
+                    el.poster_path));
+            dispatch(actionRecommendateMovies(result));
+        });
+    }
+};

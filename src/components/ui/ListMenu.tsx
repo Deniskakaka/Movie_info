@@ -3,6 +3,11 @@ import SmoothList from 'react-smooth-list';
 import { Link } from "react-router-dom";
 import { IMovieMenu, ITVMenu } from "Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces";
 import Radium from 'radium';
+import { MovieMenu } from "Root/class/previewClasses/movie";
+import { useDispatch } from "react-redux";
+import { actionRequestMovie } from "Root/redux/movieRedux/action";
+import { nowPlayMovieRequest, popularMovieRequest, topRatedMovieRequest, upcomingMovieRequest } from "Root/utils/requestFunction";
+import { MovieEnum } from "Root/utils/other";
 
 type Props = {
     list: IMovieMenu[] | ITVMenu[]
@@ -40,14 +45,17 @@ const ListMenu = (props: Props) => {
             marginRight: '5px'
         }
     }
+
     return (
         <SmoothList>
             <div style={styles.list_menu}>
                 {props.list.map(el =>
-                    <div style={styles.item}>
+                    <Link
+                        to={el instanceof MovieMenu ? `/movie/${el.name.replace(' ', '_')}` : `/tv/${el.name.replace(' ', '_')}`}
+                        style={styles.item}>
                         {el.name}
                         <img style={styles.image} src={el.image} />
-                    </div>
+                    </Link>
                 )}
             </div>
         </SmoothList>

@@ -6,6 +6,7 @@ import store from "Root/store";
 import Header from "Root/components/header/Header";
 import StartPage from "Root/components/content/startPage/StartPage";
 import Details from "Components/content/details/Details";
+import Content from "./content/filtersList/Content";
 
 
 class App extends Component {
@@ -17,6 +18,8 @@ class App extends Component {
                     <Route path="/" element={<StartPage />} />
                     <Route path="/movie_details/:id" element={<Details />} />
                     <Route path="/tv_details/:id" element={<Details/>} />
+                    <Route path="/movie/:type" element={<Content/>}/>
+                    <Route path="/tv/:type" element={<Content/>}/>
                 </Routes>
             </Provider>
         )

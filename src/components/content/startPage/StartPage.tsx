@@ -3,21 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import SmoothList from 'react-smooth-list';
+import Radium from 'radium';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Trailer from "Components/content/trailers/Trailer";
 import ListPopularPreview from "Components/ui/ListPopularPreview";
 import TrailerPreview from "Components/content/trailers/TrailersPreview";
 
-import { actionBackgroundTrailer, actionRequestMovie, actionTrailer, actionRequestDetailsMovie, actionDetailsMovie } from "Redux/movieRedux/action";
-import { actionTrailerTV, actionRequestDetailsTV, actionRequestTV, actionBackgroundTrailerTV } from "Redux/tvRedux/action";
+import { actionBackgroundTrailer, actionRequestMovie, actionTrailer, actionRequestDetailsMovie, actionDetailsMovie, actionRequestListRecommendateMovies } from "Redux/movieRedux/action";
+import { actionTrailerTV, actionRequestDetailsTV, actionRequestTV, actionBackgroundTrailerTV, actionRequestRecommendationTV } from "Redux/tvRedux/action";
 import { activeLoaderContent, disableLoaderContent, switchActiveMenu, switchListStartPage, switchListTrailer } from "Redux/rootRedux/action";
 import { IglobalReduser } from "Interfaces/globalInterfaces";
 import { ITrailerMovie } from "Root/interfaces/interfaceClassMovie/interfaceMovie";
 import { createTrailerMovie, createTrailerTV } from "Root/utils/componentsFunctions";
 import { TVEnum, MovieEnum } from "Root/utils/other";
-import Radium from 'radium';
-import CircularProgress from '@mui/material/CircularProgress';
-
 import { popularMovieRequest, popularTVRequest, requestTrailerMovie, requestTrailerTV } from "Utils/requestFunction";
 import { ITrailerTV } from "Root/interfaces/interfaceClassMovie/interfaceTV";
 import { defaultValueDetailsMovie } from "Root/utils/defaultValues";
@@ -109,6 +108,8 @@ const Movie = () => {
 
     useEffect(() => {
         dispatch(actionDetailsMovie(defaultValueDetailsMovie));
+        dispatch(actionRequestListRecommendateMovies(0, 0));
+        dispatch(actionRequestRecommendationTV(0, 0));
     }, [])
 
     useEffect(() => {
