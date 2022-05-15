@@ -25,7 +25,8 @@ const initialState: IRootReduserState = {
     activeListStartPage: 'theater',
     activeListStartTrailer: 'theater',
     contentLoader: false,
-    movieLoader: false
+    movieLoader: false,
+    step: 1
 }
 
 const rootReduser = (state = initialState, action: IActionSwitchMenu) => {
@@ -70,6 +71,18 @@ const rootReduser = (state = initialState, action: IActionSwitchMenu) => {
             return {
                 ...state,
                 movieLoader: false
+            }
+        }
+        case rootReduserName.increaseStep: {
+            return {
+                ...state,
+                step: ++state.step
+            }
+        }
+        case rootReduserName.zeroingStep: {
+            return {
+                ...state,
+                step: state.step = 1
             }
         }
         default:

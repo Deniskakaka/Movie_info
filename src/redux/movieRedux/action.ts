@@ -67,6 +67,31 @@ export const actionRequestDetailsMovie = (id: number): (dispatch: Dispatch<Actio
     }
 };
 
+//zeroing lists
+const zeroingPopularMoviesList = () => {
+    return {
+        type: movieActionName.zeroingPopularMovieList
+    }
+};
+
+const zeroingPlayNowMoviesList = () => {
+    return {
+        type: movieActionName.zeroingPlayNow
+    }
+};
+
+const zeroingUpComingMovieList = () => {
+    return {
+        type: movieActionName.zeroingUpComing
+    }
+};
+
+const zeroingTopRatingMoviesList = () => {
+    return {
+        type: movieActionName.zeroingTopRating
+    }
+}
+
 //action lists movie
 const actionMovieList = (listMovie: IMovie, type: string) => {
     return {
@@ -84,6 +109,10 @@ export const actionRequestMovie = (
         const requestNowPlayList = getState().movieReduser.now_play.length !== count * 20;
         const requestUpcomingList = getState().movieReduser.upcoming.length !== count * 20;
         const requestTopRatedList = getState().movieReduser.top_rated.length !== count * 20;
+        const popularListLength = getState().movieReduser.popular.length;
+        const nowPlayListLength = getState().movieReduser.now_play.length;
+        const upComingListLength = getState().movieReduser.upcoming.length;
+        const topRatedListLength = getState().movieReduser.top_rated.length;
 
         requestFunc(count).then((res: any) => {
             const result = res.data.results.map((el: any) => new Movie(
@@ -97,16 +126,39 @@ export const actionRequestMovie = (
                 el.vote_average,
             ));
             if (name === MovieEnum.popular && requestPopularList) {
-                dispatch(actionMovieList(result, movieActionName.requestPopular));
+                if (popularListLength > 20 && count === 1) {
+                    dispatch(zeroingPopularMoviesList());
+                    dispatch(actionMovieList(result, movieActionName.requestPopular));
+                } else {
+                    dispatch(actionMovieList(result, movieActionName.requestPopular));
+                }
             }
             if (name === MovieEnum.now_play && requestNowPlayList) {
-                dispatch(actionMovieList(result, movieActionName.requestPlayNow));
+                if (nowPlayListLength > 20 && count === 1) {
+                    dispatch(zeroingPlayNowMoviesList());
+                    dispatch(actionMovieList(result, movieActionName.requestPlayNow));
+                }
+                else {
+                    dispatch(actionMovieList(result, movieActionName.requestPlayNow));
+                }
             }
             if (name === MovieEnum.upcoming && requestUpcomingList) {
-                dispatch(actionMovieList(result, movieActionName.requestUpcoming));
+                if (upComingListLength > 20 && count === 1) {
+                    dispatch(zeroingUpComingMovieList());
+                    dispatch(actionMovieList(result, movieActionName.requestUpcoming));
+                }
+                else {
+                    dispatch(actionMovieList(result, movieActionName.requestUpcoming));
+                }
             }
             if (name === MovieEnum.top_rated && requestTopRatedList) {
-                dispatch(actionMovieList(result, movieActionName.requestTopRated));
+                if (topRatedListLength > 20 && count === 1) {
+                    dispatch(zeroingTopRatingMoviesList());
+                    dispatch(actionMovieList(result, movieActionName.requestTopRated));
+                }
+                else {
+                    dispatch(actionMovieList(result, movieActionName.requestTopRated));
+                }
             }
         });
     }

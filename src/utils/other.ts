@@ -20,6 +20,8 @@ export const rootReduserName = {
     disableLoaderContent: 'DISABLE_LOADER_CONTENT',
     activeMovieLoader: 'ACTIVE_LOADER_MOVIE',
     disableMovieLoader: 'DISABLE_LOADER_MOVIE',
+    increaseStep: 'INCREASE_STEP',
+    zeroingStep: 'ZEROING_STEP'
 }
 
 export const movieActionName = {
@@ -32,7 +34,11 @@ export const movieActionName = {
     setKeyTrailer: 'SWITCH_KEY_TRAILER',
     requestDetailsMovie: 'DETAILS_MOVIE',
     requestCastMovie: 'CAST_MOVIE',
-    requestRecommendateMovies: 'REQUEST_LIST_RECOMMENDATED_MOVIE'
+    requestRecommendateMovies: 'REQUEST_LIST_RECOMMENDATED_MOVIE',
+    zeroingPopularMovieList: 'ZEROING_POPULAR_MOVIE_LIST',
+    zeroingPlayNow: 'ZEROING_PLAY_NOW',
+    zeroingUpComing: 'ZEROING_UPCOMING',
+    zeroingTopRating: 'ZEROING_TOP_RATING'
 };
 
 export const tvActionName = {

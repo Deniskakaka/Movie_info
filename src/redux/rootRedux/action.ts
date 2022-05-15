@@ -43,4 +43,16 @@ export const disableLoaderMovie = () => {
     return {
         type: rootReduserName.disableMovieLoader
     }
+};
+
+export const increaseStep = () => {
+    return {
+        type: rootReduserName.increaseStep
+    }
+};
+
+export const zeroingStep = () => {
+    return {
+        type: rootReduserName.zeroingStep
+    }
 }

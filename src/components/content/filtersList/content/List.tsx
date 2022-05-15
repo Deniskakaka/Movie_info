@@ -7,7 +7,16 @@ import { IglobalReduser } from "Root/interfaces/globalInterfaces";
 import { actionRequestMovie } from "Root/redux/movieRedux/action";
 import { actionRequestTV } from "Root/redux/tvRedux/action";
 import { MovieEnum, TVEnum } from "Root/utils/other";
-import { airingTodayRequest, nowPlayMovieRequest, popularMovieRequest, popularTVRequest, topRatedMovieRequest, tvOnTheAirRequest, tvTopRatedRequest, upcomingMovieRequest } from "Root/utils/requestFunction";
+import {
+    airingTodayRequest,
+    nowPlayMovieRequest,
+    popularMovieRequest,
+    popularTVRequest,
+    topRatedMovieRequest,
+    tvOnTheAirRequest,
+    tvTopRatedRequest,
+    upcomingMovieRequest
+} from "Root/utils/requestFunction";
 
 const List = () => {
     const location = useLocation().pathname;
@@ -20,6 +29,7 @@ const List = () => {
     const airingTodayTV = useSelector((state: IglobalReduser) => state.tvReduser.airing_today);
     const onTV = useSelector((state: IglobalReduser) => state.tvReduser.TV_on_the_air);
     const topRatedTV = useSelector((state: IglobalReduser) => state.tvReduser.top_rated);
+    const step = useSelector((state: IglobalReduser) => state.rootReduser.step);
 
     const returnList = (pathname: string) => {
         if (location.includes('movie')) {
@@ -68,9 +78,9 @@ const List = () => {
     }
 
     useEffect(() => {
-        if (location.includes('movie')) dispatch(actionRequestMovie(1, returnPromise(location), returnName(location)));
-        if (location.includes('tv')) dispatch(actionRequestTV(1, returnPromise(location), returnName(location)));
-    }, [location]);
+        if (location.includes('movie')) dispatch(actionRequestMovie(step, returnPromise(location), returnName(location)));
+        if (location.includes('tv')) dispatch(actionRequestTV(step, returnPromise(location), returnName(location)));
+    }, [location, step]);
 
     return (<Preview listMovies={returnList(location)} pathname={location} />)
 };

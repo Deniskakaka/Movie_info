@@ -3,6 +3,8 @@ import Sort from "./content/Sort";
 import Radium from 'radium';
 import Filters from "./content/Filters";
 import List from "./content/List";
+import { useDispatch } from "react-redux";
+import { increaseStep } from "Root/redux/rootRedux/action";
 
 const Content = () => {
     const styles: Radium.StyleRules = {
@@ -22,6 +24,7 @@ const Content = () => {
             margin: '0 20px 20px 0'
         }
     };
+    const dispatch = useDispatch();
     //TODO add danamic change title
     return (
         <div style={styles.wrapper}>
@@ -31,6 +34,7 @@ const Content = () => {
                 <Filters />
             </div>
             <List />
+            <button onClick={() => dispatch(increaseStep())} >More</button>
         </div>
     )
 };

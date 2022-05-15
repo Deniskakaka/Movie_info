@@ -23,10 +23,22 @@ const movieReduser = (state = initialState, action: any) => {
                 popular: state.popular.concat(action.payload),
             }
         }
+        case movieActionName.zeroingPopularMovieList: {
+            return {
+                ...state,
+                popular: state.popular = []
+            }
+        }
         case movieActionName.requestPlayNow: {
             return {
                 ...state,
                 now_play: state.now_play.concat(action.payload),
+            }
+        }
+        case movieActionName.zeroingPlayNow: {
+            return {
+                ...state,
+                popular: state.now_play = []
             }
         }
         case movieActionName.requestUpcoming: {
@@ -35,10 +47,22 @@ const movieReduser = (state = initialState, action: any) => {
                 upcoming: state.upcoming.concat(action.payload),
             }
         }
+        case movieActionName.zeroingUpComing: {
+            return {
+                ...state,
+                popular: state.upcoming = []
+            }
+        }
         case movieActionName.requestTopRated: {
             return {
                 ...state,
                 top_rated: state.top_rated.concat(action.payload),
+            }
+        }
+        case movieActionName.zeroingTopRating: {
+            return {
+                ...state,
+                popular: state.top_rated = []
             }
         }
         case movieActionName.requestTrailer: {

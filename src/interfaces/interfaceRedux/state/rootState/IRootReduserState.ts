@@ -9,6 +9,7 @@ interface IRootReduserState  {
     activeListStartTrailer: string,
     contentLoader: boolean,
     movieLoader: boolean,
+    step: number
 };
 
 export default IRootReduserState;
