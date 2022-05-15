@@ -9,6 +9,11 @@ export interface IMovie extends GlobalProperty {
     poster_path: string,
     release_date: string,
     vote_average: number,
+    genre_ids: number[];
+    genres: string[];
+    certification: string[];
+    runtime: number[];
+    
 };
 
 export interface ITrailerMovie {

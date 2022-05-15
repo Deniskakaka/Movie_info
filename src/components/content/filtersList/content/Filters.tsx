@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { requestCertificationsMovie, requestCertificationsTV, requestGenresMovie, requestgenresTV, requestListLanguages } from "Root/utils/requestFunction";
+import { requestCertificationsMovie, requestCertificationsListTV, requestGenresMovie, requestgenresTV, requestListLanguages } from "Root/utils/requestFunction";
 
 import Slider from '@mui/material/Slider';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -16,9 +16,13 @@ import Radium from 'radium';
 import Chip from '@mui/material/Chip';
 import { ILanguage } from "Root/interfaces/interfaceClassMovie/interfaceLanguage";
 import { Language } from "Root/class/languageClass/language";
+import IFilterObject from "Root/interfaces/interfaceGlobalObject/IfiltersObject";
 
 type PropsGenres = {
-    element: string
+    element: string,
+    filter: IFilterObject,
+    type: string,
+    func: Dispatch<SetStateAction<boolean>>
 }
 
 const Teg = (props: PropsGenres) => {
@@ -31,6 +35,7 @@ const Teg = (props: PropsGenres) => {
     };
     const [hover, setHover] = useState<boolean>(false);
     const [select, setSelect] = useState<boolean>(false);
+    const location = useLocation().pathname;
 
     if (hover) {
         styles.item.background = '#01b4e4',
@@ -40,13 +45,32 @@ const Teg = (props: PropsGenres) => {
     if (select) {
         styles.item.background = '#01b4e4',
             styles.item.color = '#fff'
-    }
+    };
+
+    useEffect(() => setSelect(false), [location]);
 
     return (
         <Chip
             onMouseOver={() => setHover(true)}
             onMouseOut={() => setHover(false)}
-            onClick={() => setSelect(!select)}
+            onClick={() => {
+                setSelect(!select);
+                props.func(false);
+                if (props.type === 'genres') {
+                    if (props.filter.genres.includes(props.element)) {
+                        let position = props.filter.genres.indexOf(props.element);
+                        props.filter.genres.splice(position, 1);
+                    }
+                    else props.filter.genres.push(props.element);
+                }
+                if (props.type === 'sertification') {
+                    if (props.filter.sertification.includes(props.element)) {
+                        let position = props.filter.sertification.indexOf(props.element);
+                        props.filter.sertification.splice(position, 1);
+                    }
+                    else props.filter.sertification.push(props.element);
+                }
+            }}
             style={styles.item}
             label={`${props.element}`} />
     )
@@ -83,9 +107,14 @@ const run = [
         value: 360,
         label: '360'
     }
-]
+];
 
-const Filters = () => {
+type Props = {
+    filter: IFilterObject,
+    func: Dispatch<SetStateAction<boolean>>
+}
+
+const Filters = (props: Props) => {
     const styles: Radium.StyleRules = {
         wrapper: {
             width: '100%',
@@ -116,7 +145,7 @@ const Filters = () => {
     const [sertification, setSertification] = useState<string[]>([]);
     const [languages, setLanguages] = useState<ILanguage[]>([]);
     const [lang, setLang] = useState<string>('');
-    const [vote, setVote] = useState<number[]>([0, 50]);
+    const [runtime, setRintime] = useState<number[]>([0, 0]);
 
     useEffect(() => {
         if (location.pathname.includes('movie')) {
@@ -127,25 +156,35 @@ const Filters = () => {
         else {
             requestgenresTV()
                 .then(res => setGenres(res.data.genres.map((el: any) => el.name)));
-            requestCertificationsTV().then(res => setSertification(res.data.certifications['US'].map((el: any) => el.certification)));
+            requestCertificationsListTV().then(res => setSertification(res.data.certifications['US'].map((el: any) => el.certification)));
         };
         requestListLanguages().then(res => {
-            const result = res.data.map((el: any) => new Language(el.iso_639_1, el.english_name));
+            const result = res.data.map((el: any) => new Language(el.iso_639_1, el.english_name))
+            .sort(function(a: any, b: any){
+                if(a.name < b.name) { return -1; }
+                if(a.name > b.name) { return 1; }
+                return 0;
+            });
             setLanguages(result);
         });
-    }, []);
+    }, [location.pathname]);
 
     const handleChange = (event: SelectChangeEvent) => {
         setLang(event.target.value as string);
+        props.filter.language = event.target.value;
     };
 
-    const handleChangeVotes = (event: Event, newValue: number | number[]) => {
-        setVote(newValue as number[]);
+    const handleChangeRuntime = (event: Event, newValue: number[]) => {
+        setRintime(newValue as number[]);
+        props.filter.runtime = newValue;
     };
 
-    const valueText = (value: number) => `${value}`
+    const valueText = (value: number) => {
+        props.filter.vote = value;
+        return `${value}`
+    }
 
-    const valueVotes = (value: number) => `${value}`
+    const valueRuntime = (value: number) => `${value}`
 
     return (
         <Accordion style={styles.wrapper}>
@@ -160,11 +199,11 @@ const Filters = () => {
             <AccordionDetails>
                 <div style={styles.wrapper_item}>
                     <Typography style={styles.text}>Genres</Typography>
-                    <div>{genres.map(el => <Teg element={el} />)}</div>
+                    <div>{genres.map(el => <Teg func={props.func} element={el} filter={props.filter} type='genres' />)}</div>
                 </div>
                 <div style={styles.wrapper_item}>
                     <Typography style={styles.text}>Certification</Typography>
-                    <div>{sertification.map(el => <Teg element={el} />)}</div>
+                    <div>{sertification.map(el => <Teg func={props.func} element={el} filter={props.filter} type='sertification' />)}</div>
                 </div>
                 <FormControl fullWidth variant="standard">
                     <InputLabel id="demo-simple-select-label">Language</InputLabel>
@@ -195,10 +234,10 @@ const Filters = () => {
                     <span>Runtime</span>
                     <Slider
                         getAriaLabel={() => 'Temperature range'}
-                        value={vote}
-                        onChange={handleChangeVotes}
+                        value={runtime}
+                        onChange={handleChangeRuntime}
                         valueLabelDisplay="auto"
-                        getAriaValueText={valueVotes}
+                        getAriaValueText={valueRuntime}
                         step={1}
                         min={0}
                         max={360}
