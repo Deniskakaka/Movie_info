@@ -5,7 +5,7 @@ import { IMovieMenu, ITVMenu } from "Root/interfaces/interfaceGlobalObject/globa
 import Radium from 'radium';
 import { MovieMenu } from "Root/class/previewClasses/movie";
 import { useDispatch } from "react-redux";
-import { zeroingStep } from "Root/redux/rootRedux/action";
+import { activeLoaderContent } from "Root/redux/rootRedux/action";
 
 type Props = {
     list: IMovieMenu[] | ITVMenu[]
@@ -42,16 +42,20 @@ const ListMenu = (props: Props) => {
             height: '30px',
             marginRight: '5px'
         }
-    }
+    };
     const dispatch = useDispatch();
 
     return (
         <SmoothList>
-            <div style={styles.list_menu} onClick={() => dispatch(zeroingStep())}>
+            <div style={styles.list_menu}>
                 {props.list.map(el =>
                     <Link
-                        to={el instanceof MovieMenu ? `/movie/${el.name.replace(' ', '_')}` : `/tv/${el.name.replace(' ', '_')}`}
-                        style={styles.item}>
+                        onClick={() => dispatch(activeLoaderContent())}
+                        to={el instanceof MovieMenu 
+                            ? `/movie/${el.name.replace(' ', '_')}` 
+                            : `/tv/${el.name.replace(' ', '_')}`}
+                        style={styles.item}
+                    >
                         {el.name}
                         <img style={styles.image} src={el.image} />
                     </Link>

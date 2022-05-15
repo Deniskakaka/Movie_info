@@ -71,6 +71,12 @@ export interface GlobalProperty {
     getRelease_date(): string;
 
     getVote_average(): number;
+
+    setGenres: (name: string) => void;
+
+    setCertification: (id:number) => void;
+    
+    setRuntime: (id: number) => void;
 };
 
 export interface GlobalPropertyDetails {

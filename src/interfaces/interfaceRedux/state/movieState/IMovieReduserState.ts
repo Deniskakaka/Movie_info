@@ -11,5 +11,6 @@ export interface IMovieReduserState {
     backgroundTrailer: string,
     trailerKey: string,
     cast: ICast[],
-    recommendationMovies: IRecommendationMovie[]
+    recommendationMovies: IRecommendationMovie[],
+    genres: { id: number, name: string }[]
 };

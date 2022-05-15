@@ -1,9 +1,12 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
+import { Movie } from "Root/class/previewClasses/movie";
+import TV from "Root/class/previewClasses/tv";
 import Preview from "Root/components/ui/Preview";
 import { IglobalReduser } from "Root/interfaces/globalInterfaces";
+import IFilterObject from "Root/interfaces/interfaceGlobalObject/IfiltersObject";
 import { actionRequestMovie } from "Root/redux/movieRedux/action";
 import { actionRequestTV } from "Root/redux/tvRedux/action";
 import { MovieEnum, TVEnum } from "Root/utils/other";
@@ -18,7 +21,13 @@ import {
     upcomingMovieRequest
 } from "Root/utils/requestFunction";
 
-const List = () => {
+type Props = {
+    filter: IFilterObject,
+    filtration: boolean,
+    sort: string
+}
+
+const List = (props: Props) => {
     const location = useLocation().pathname;
     const dispatch = useDispatch();
     const popularMovie = useSelector((state: IglobalReduser) => state.movieReduser.popular);
@@ -31,7 +40,7 @@ const List = () => {
     const topRatedTV = useSelector((state: IglobalReduser) => state.tvReduser.top_rated);
     const step = useSelector((state: IglobalReduser) => state.rootReduser.step);
 
-    const returnList = (pathname: string) => {
+    const returnList = (pathname: string): Movie[] | TV[] => {
         if (location.includes('movie')) {
             if (pathname.toLocaleLowerCase().includes('popular')) return popularMovie;
             if (pathname.toLocaleLowerCase().includes('now_play')) return nowPlayMovie;
@@ -72,17 +81,22 @@ const List = () => {
         if (location.includes('tv')) {
             if (pathname.toLocaleLowerCase().includes('popular')) return TVEnum.popular;
             if (pathname.toLocaleLowerCase().includes('aring_today')) return TVEnum.airing_today;
-            if (pathname.toLocaleLowerCase().includes('on_tv')) return TVEnum.on_the_air;
+            if (pathname.toLocaleLowerCase().includes('on_tv')) return TVEnum.on_tv;
             if (pathname.toLocaleLowerCase().includes('top_rated')) return TVEnum.top_rated;
         }
-    }
+    };
 
     useEffect(() => {
         if (location.includes('movie')) dispatch(actionRequestMovie(step, returnPromise(location), returnName(location)));
         if (location.includes('tv')) dispatch(actionRequestTV(step, returnPromise(location), returnName(location)));
     }, [location, step]);
 
-    return (<Preview listMovies={returnList(location)} pathname={location} />)
+    return (<Preview
+        listMovies={returnList(location)}
+        pathname={location}
+        filter={props.filter}
+        filtration={props.filtration}
+        sort={props.sort} />);
 };
 
 export default List;

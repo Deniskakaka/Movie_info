@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -15,7 +15,7 @@ type persentsProps = {
     persents: number
 }
 
-const PercentsPopulation = (props: persentsProps) => {
+export const PercentsPopulation = (props: persentsProps) => {
 
     const paintingRating = (rating: number) => {
         if (rating >= 7.5) return '#05f03c';
@@ -98,7 +98,7 @@ const ListStartPopular = (props: Props) => {
                                     component="img"
                                     height="225"
                                     image={el.getPoster_path()} />
-                                <CardContent className="content">
+                                <CardContent>
                                     <Typography>
                                         {el.original_title}
                                     </Typography>

@@ -5,7 +5,7 @@ import { Movie } from "Root/class/previewClasses/movie";
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { IDetailMovie, IMovie, IRecommendationMovie, ITrailerMovie } from 'Root/interfaces/interfaceClassMovie/interfaceMovie';
 import { IProductionCompany } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
-import { requestCastMovie, requestDetailsMovie, requestRecommendateMovies } from 'Root/utils/requestFunction';
+import { requestCastMovie, requestDetailsMovie, requestGenresMovie, requestRecommendateMovies } from 'Root/utils/requestFunction';
 import { MovieEnum, movieActionName, TVEnum } from "Root/utils/other";
 import { DetailsFabric, FabricaRecommendates } from "Root/class/fabricClass";
 import { ICast } from 'Root/interfaces/interfaceClassMovie/interfaceCast';
@@ -104,17 +104,22 @@ export const actionRequestMovie = (
     count: number,
     requestFunc: (count: number) => Promise<any>,
     name: MovieEnum | TVEnum) => {
-    return (dispatch: Dispatch<Action>, getState: () => IglobalReduser): void => {
+    return (dispatch: Dispatch<any>, getState: () => IglobalReduser): void => {
         const requestPopularList = getState().movieReduser.popular.length !== count * 20;
         const requestNowPlayList = getState().movieReduser.now_play.length !== count * 20;
         const requestUpcomingList = getState().movieReduser.upcoming.length !== count * 20;
         const requestTopRatedList = getState().movieReduser.top_rated.length !== count * 20;
+<<<<<<< HEAD
         const popularListLength = getState().movieReduser.popular.length;
         const nowPlayListLength = getState().movieReduser.now_play.length;
         const upComingListLength = getState().movieReduser.upcoming.length;
         const topRatedListLength = getState().movieReduser.top_rated.length;
+=======
+        dispatch(actionRequestGenresList());
+>>>>>>> 27ff31e0999b126a048481271690dbcbef54c5f6
 
         requestFunc(count).then((res: any) => {
+            const genresList = getState().movieReduser.genres;
             const result = res.data.results.map((el: any) => new Movie(
                 el.backdrop_path,
                 el.id,
@@ -124,7 +129,16 @@ export const actionRequestMovie = (
                 el.poster_path,
                 el.release_date,
                 el.vote_average,
+                el.genre_ids
             ));
+            result.map((el:Movie) => el.setCertification(el.id));
+            result.map((el: Movie) => {
+                genresList.forEach((q: { id: number, name: string }) => {
+                    if (el.genre_ids.includes(q.id)) el.setGenres(q.name);
+                });
+                return el;
+            });
+            result.map((el: Movie) => el.setRuntime(el.id));
             if (name === MovieEnum.popular && requestPopularList) {
                 if (popularListLength > 20 && count === 1) {
                     dispatch(zeroingPopularMoviesList());
@@ -218,5 +232,20 @@ export const actionRequestListRecommendateMovies = (id: number, count: number) =
                     el.poster_path));
             dispatch(actionRecommendateMovies(result));
         });
+    }
+};
+
+//genres
+
+const actionGenres = (list: { id: number, name: string }[]) => {
+    return {
+        type: movieActionName.requestGenresList,
+        payload: list
+    }
+};
+
+export const actionRequestGenresList = () => {
+    return (dispatch: Dispatch<Action>) => {
+        requestGenresMovie().then(res => dispatch(actionGenres(res.data.genres)));
     }
 };
