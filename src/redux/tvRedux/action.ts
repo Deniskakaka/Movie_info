@@ -4,7 +4,7 @@ import TV from 'Root/class/previewClasses/tv';
 import { IglobalReduser } from 'Root/interfaces/globalInterfaces';
 import { ITV, ITrailerTV, IDetailTV } from 'Root/interfaces/interfaceClassMovie/interfaceTV';
 import { ICreatedBy, INetworks, IProductionCompanyTV, IRecommendationTV, ISeason } from 'Root/interfaces/interfaceGlobalObject/globalObjectsInterfaces';
-import { requestCastTV, requestDetailsTV, requestRecommendateTV } from 'Root/utils/requestFunction';
+import { requestCastTV, requestCertificationsListTV, requestDetailsTV, requestGenresList, requestgenresTV, requestRecommendateTV } from 'Root/utils/requestFunction';
 import { TVEnum, tvActionName, MovieEnum } from "Root/utils/other";
 import { DetailsFabric, FabricaRecommendates } from "Root/class/fabricClass";
 import { ICast } from 'Root/interfaces/interfaceClassMovie/interfaceCast';
@@ -111,13 +111,15 @@ export const actionRequestTV = (
     count: number,
     requestFunc: (count: number) => Promise<any>,
     name: MovieEnum | TVEnum) => {
-    return (dispatch: Dispatch<Action>, getState: () => IglobalReduser): void => {
+    return (dispatch: Dispatch<any>, getState: () => IglobalReduser): void => {
         const requestPopularList = getState().tvReduser.popular.length !== count * 20;
         const requestAiringTodayList = getState().tvReduser.airing_today.length !== count * 20;
         const requestOnTheAirList = getState().tvReduser.TV_on_the_air.length !== count * 20;
         const requestTopRatedList = getState().movieReduser.top_rated.length !== count * 20;
+        dispatch(actionRequestGenresList());
 
         requestFunc(count).then((res: any) => {
+            const genresList = getState().tvReduser.genres;
             const result = res.data.results.map((el: any) => new TV(
                 el.poster_path,
                 el.id,
@@ -126,12 +128,21 @@ export const actionRequestTV = (
                 el.first_air_date,
                 el.origin_country,
                 el.original_language,
-                el.name));
+                el.name,
+                el.genre_ids));
+            result.map((el: TV) => el.setCertification(el.id));
+            result.map((el: TV) => {
+                genresList.forEach((q: { id: number, name: string }) => {
+                    if (el.genre_ids.includes(q.id)) el.setGenres(q.name);
+                });
+                return el;
+            });
+            result.map((el: TV) => el.setRuntime(el.id));
             if (name === TVEnum.popular && requestPopularList)
                 return dispatch(actionTVList(result, tvActionName.requestPopular));
             if (name === TVEnum.airing_today && requestAiringTodayList)
                 return dispatch(actionTVList(result, tvActionName.requestAiringTodayTV));
-            if (name === TVEnum.on_the_air && requestOnTheAirList)
+            if (name === TVEnum.on_tv && requestOnTheAirList)
                 return dispatch(actionTVList(result, tvActionName.requestListOnTheAir));
             if (name === TVEnum.top_rated && requestTopRatedList)
                 return dispatch(actionTVList(result, tvActionName.requestTopRated));
@@ -140,7 +151,6 @@ export const actionRequestTV = (
 };
 
 //cast TV
-
 const actionCastTV = (cast: ICast) => {
     return {
         type: tvActionName.requestCastTV,
@@ -195,4 +205,19 @@ export const actionRequestRecommendationTV = (id: number, count: number) => {
             dispatch(actionRecommendationTV(result));
         });
     }
-}
+};
+
+//genres
+
+const actionGenres = (list: { id: number, name: string }[]) => {
+    return {
+        type: tvActionName.requestGenresList,
+        payload: list
+    }
+};
+
+export const actionRequestGenresList = () => {
+    return (dispatch: Dispatch<Action>) => {
+        requestGenresList().then(res => dispatch(actionGenres(res.data.genres)));
+    }
+};

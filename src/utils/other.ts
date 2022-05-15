@@ -2,13 +2,14 @@ export enum MovieEnum {
     popular,
     now_play,
     upcoming,
-    top_rated
+    top_rated,
+    pathname
 };
 
 export enum TVEnum {
     popular,
     airing_today,
-    on_the_air,
+    on_tv,
     top_rated
 };
 
@@ -32,7 +33,8 @@ export const movieActionName = {
     setKeyTrailer: 'SWITCH_KEY_TRAILER',
     requestDetailsMovie: 'DETAILS_MOVIE',
     requestCastMovie: 'CAST_MOVIE',
-    requestRecommendateMovies: 'REQUEST_LIST_RECOMMENDATED_MOVIE'
+    requestRecommendateMovies: 'REQUEST_LIST_RECOMMENDATED_MOVIE',
+    requestGenresList: 'REQUEST_LIST_GENRES',
 };
 
 export const tvActionName = {
@@ -45,5 +47,6 @@ export const tvActionName = {
     requestDetailsTV: 'REQUEST_DETAILS_TV',
     setBackgroundTrailer: 'BACKGROUND_TRAILER_TV',
     requestCastTV: 'CAST_TV',
-    requestRecommendateTV: 'REQUEST_LIST_RECOMMENDATED_TV'
+    requestRecommendateTV: 'REQUEST_LIST_RECOMMENDATED_TV',
+    requestGenresList: 'REQUEST_LIST_GENRES',
 };

@@ -12,7 +12,8 @@ const initialState: IMovieReduserState = {
     trailerKey: '',
     detailsMovie: defaultValueDetailsMovie,
     cast: [defaultValueCast],
-    recommendationMovies: []
+    recommendationMovies: [], 
+    genres: []
 };
 
 const movieReduser = (state = initialState, action: any) => {
@@ -75,6 +76,12 @@ const movieReduser = (state = initialState, action: any) => {
             return {
                 ...state,
                 recommendationMovies: state.recommendationMovies = action.payload
+            }
+        }
+        case movieActionName.requestGenresList: {
+            return {
+                ...state,
+                genres: state.genres = action.payload
             }
         }
         default:

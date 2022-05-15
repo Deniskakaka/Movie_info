@@ -11,7 +11,11 @@ export interface ITV extends GlobalProperty{
     origin_country: string[],
     original_language: string,
     original_title: string,
-    trailer: ITrailerMovie[] | []
+    trailer: ITrailerMovie[] | [],
+    genre_ids: number[],
+    genres: string[],
+    certification: string[],
+    runtime: number[]
 };
 
 export interface ITrailerTV {

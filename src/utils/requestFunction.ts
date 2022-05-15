@@ -49,7 +49,7 @@ export const requestGenresMovie = () => {
 
 export const requestCertificationsMovie = () => {
   return axios.get(`https://api.themoviedb.org/3/certification/movie/list?api_key=${key}`);
-}
+};
 
 //TV
 export const popularTVRequest = (count: number) => {
@@ -96,11 +96,24 @@ export const requestgenresTV = () => {
   return axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=${key}&language=en-US`);
 };
 
-export const requestCertificationsTV = () => {
+export const requestCertificationsListTV = () => {
   return axios.get(`https://api.themoviedb.org/3/certification/tv/list?api_key=${key}`);
 };
+
+export const requestCertificationTV = (id: number) => {
+  return axios.get(`https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${key}&language=en-US`);
+};
+
+export const requestCertificationMovie = (id: number) => {
+  return axios.get(`https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${key}`);
+}
 
 //request language
 export const requestListLanguages = () => {
   return axios.get(`https://api.themoviedb.org/3/configuration/languages?api_key=${key}`);
 };
+
+//request genres
+export const requestGenresList = () => {
+  return axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=${key}&language=en-US`);
+}
